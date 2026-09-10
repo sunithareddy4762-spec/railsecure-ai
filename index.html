@@ -79,6 +79,10 @@ body {
    TOP BAR
 ============================== */
 
+/* ==============================
+   TOP BAR
+============================== */
+
 .top-bar {
 
     position: absolute;
@@ -87,11 +91,11 @@ body {
     left: 0;
     right: 0;
 
-    height: 72px;
+    height: 90px;
 
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 
     padding: 0 48px;
 
@@ -103,15 +107,31 @@ body {
     display: flex;
     align-items: center;
 
-    gap: 10px;
+    gap: 14px;
 
-    font-size: 12px;
-
-    letter-spacing: 2px;
-
-    color: #dbe9f7;
+    color: white;
 }
 
+.top-brand img {
+
+    width: 65px;
+    height: 65px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+.brand-name {
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    color: white;
+}
 .india-line {
 
     display: flex;
@@ -781,6 +801,9 @@ body {
 }
 
 
+
+
+
 /* ==============================
    DARK BOTTOM GRADIENT
 ============================== */
@@ -1019,21 +1042,46 @@ body {
         background-position: 58% center;
     }
 
-    .top-bar {
+.top-brand {
 
-        height: 55px;
+    position: absolute;
 
-        padding: 0 18px;
+    left: 48px;
+    top: 0;
 
-        justify-content: flex-end;
-    }
+    height: 72px;
 
-    .top-brand {
+    display: flex;
+    align-items: center;
 
-        font-size: 9px;
+    gap: 10px;
 
-        letter-spacing: 1.5px;
-    }
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    color: #dbe9f7;
+}
+.top-brand {
+
+    position: absolute;
+
+    left: 48px;
+    top: 0;
+
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    color: #dbe9f7;
+}
 
     .india-line span {
 
@@ -1698,6 +1746,20 @@ body {
 
 <body>
 
+<div class="top-bar">
+
+    <div class="top-brand">
+
+        <img src="C:\Users\sunip\Desktop\Project\logo.jpeg" alt="RailSecure AI Logo">
+
+        <div class="brand-name">
+            INDIAN RAILWAYS
+        </div>
+
+    </div>
+
+</div>
+
 
 <!-- =================================
      HOME PAGE
@@ -1709,26 +1771,6 @@ body {
     <!-- ==============================
          TOP RIGHT BRAND
     ============================== -->
-
-    <div class="top-bar">
-
-        <div class="top-brand">
-
-            <div class="india-line">
-
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </div>
-
-            <span>
-                BUILT FOR A SAFER INDIA
-            </span>
-
-        </div>
-
-    </div>
 
 
     <!-- ==============================
