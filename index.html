@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>RailSecure AI | Indian Railways</title>
+
+<style>
+
+/* ==============================
+   RESET
+============================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+
+    background:
+        linear-gradient(
+            rgba(2, 12, 25, 0.65),
+            rgba(2, 12, 25, 0.78)
+        ),
+        url("C:\Users\sunip\Desktop\Project\file_00000000d638821185ee19bfad2788d3.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    color: white;
+}
+
+/* ==============================
+   HOME
+============================== */
+
+.home-page {
+
+    width: 100%;
+    min-height: 100vh;
+
+    position: relative;
+
+    background-image:
+        linear-gradient(
+            90deg,
+            rgba(1, 10, 23, 0.92) 0%,
+            rgba(1, 10, 23, 0.78) 35%,
+            rgba(1, 10, 23, 0.25) 68%,
+            rgba(1, 10, 23, 0.05) 100%
+        ),
+        url("./file_00000000d638821185ee19bfad2788d3.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    min-height: 100vh;
+}
+
+
+/* ==============================
+   TOP BAR
+============================== */
+
+.top-bar {
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 0 48px;
+
+    z-index: 10;
+}
+
+.top-brand {
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    color: #dbe9f7;
+}
+
+.india-line {
+
+    display: flex;
+    gap: 2px;
+}
+
+.india-line span {
+
+    display: block;
+
+    width: 22px;
+    height: 4px;
+}
+
+.india-line span:nth-child(1) {
+    background: #ff8a20;
+}
+
+.india-line span:nth-child(2) {
+    background: white;
+}
+
+.india-line span:nth-child(3) {
+    background: #20c86b;
+}
+
+
+/* ==============================
+   HERO
+============================== */
+
+.hero {
+
+    position: relative;
+
+    min-height: 100vh;
+
+    padding-top: 105px;
+    padding-left: 60px;
+    padding-right: 40px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    z-index: 2;
+}
+
+
+/* ==============================
+   HERO CONTENT
+============================== */
+
+.hero-content {
+
+    width: 610px;
+
+    padding-top: 28px;
+}
+
+.hero-small {
+
+    font-size: 15px;
+
+    letter-spacing: 5px;
+
+    color: #e6edf5;
+
+    margin-bottom: 23px;
+
+    text-transform: uppercase;
+}
+
+.blue-line {
+
+    width: 80px;
+    height: 4px;
+
+    border-radius: 10px;
+
+    background: #09bfff;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 0 15px rgba(0, 191, 255, 0.8);
+}
+
+
+/* ==============================
+   MAIN TITLE
+============================== */
+
+.hero h1 {
+
+    font-size: 78px;
+
+    line-height: 0.98;
+
+    font-weight: 800;
+
+    letter-spacing: -4px;
+
+    color: white;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 .blue {
+    color: #08bfff;
+
+    text-shadow:
+        0 0 20px rgba(0, 191, 255, 0.35);
+}
+
+.hero h1 .safer {
+    color: #08bfff;
+}
+
+
+/* ==============================
+   DESCRIPTION
+============================== */
+
+.hero-description {
+
+    width: 550px;
+
+    font-size: 20px;
+
+    line-height: 1.55;
+
+    color: #edf4fb;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,0.7);
+}
+
+
+/* ==============================
+   THREE DEVICE CARDS
+============================== */
+
+.device-container {
+
+    display: flex;
+
+    gap: 16px;
+
+    margin-bottom: 55px;
+
+    position: relative;
+
+    z-index: 20;
+}
+
+
+/* ==============================
+   DEVICE CARD
+============================== */
+
+.device-card {
+
+    width: 270px;
+    height: 375px;
+
+    padding: 24px 20px;
+
+    border-radius: 18px;
+
+    text-decoration: none;
+
+    color: white;
+
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(3, 24, 46, 0.78),
+            rgba(3, 14, 30, 0.88)
+        );
+
+    backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(40, 150, 230, 0.7);
+
+    box-shadow:
+        0 0 25px rgba(0, 120, 255, 0.12),
+        inset 0 0 25px rgba(0, 150, 255, 0.04);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.device-card:hover {
+
+    transform: translateY(-10px) scale(1.02);
+
+    box-shadow:
+        0 0 35px rgba(0, 170, 255, 0.35),
+        0 20px 45px rgba(0,0,0,0.35);
+}
+
+
+/* ==============================
+   CARD COLORS
+============================== */
+
+.robot-card {
+
+    border-color:
+        rgba(0, 194, 255, 0.85);
+
+    box-shadow:
+        0 0 25px rgba(0, 194, 255, 0.12);
+}
+
+.handheld-card {
+
+    border-color:
+        rgba(142, 67, 255, 0.9);
+
+    box-shadow:
+        0 0 25px rgba(142, 67, 255, 0.12);
+}
+
+.dashboard-card {
+
+    border-color:
+        rgba(0, 236, 184, 0.9);
+
+    box-shadow:
+        0 0 25px rgba(0, 236, 184, 0.12);
+}
+
+
+/* ==============================
+   CARD NUMBER
+============================== */
+
+.card-number {
+
+    position: absolute;
+
+    top: 18px;
+    right: 20px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+.robot-card .card-number {
+    color: #08c8ff;
+}
+
+.handheld-card .card-number {
+    color: #9c59ff;
+}
+
+.dashboard-card .card-number {
+    color: #00edb5;
+}
+
+
+/* ==============================
+   ICON CIRCLE
+============================== */
+
+.device-icon {
+
+    width: 125px;
+    height: 125px;
+
+    margin-top: 12px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 58px;
+
+    position: relative;
+
+    border: 1px solid rgba(255,255,255,0.13);
+
+    background:
+        rgba(5, 35, 62, 0.55);
+
+    box-shadow:
+        inset 0 0 30px rgba(0, 160, 255, 0.08);
+}
+
+.robot-card .device-icon {
+
+    color: #08c8ff;
+
+    box-shadow:
+        0 0 25px rgba(0, 194, 255, 0.18),
+        inset 0 0 30px rgba(0, 194, 255, 0.08);
+}
+
+.handheld-card .device-icon {
+
+    color: #9b50ff;
+
+    box-shadow:
+        0 0 25px rgba(140, 60, 255, 0.18),
+        inset 0 0 30px rgba(140, 60, 255, 0.08);
+}
+
+.dashboard-card .device-icon {
+
+    color: #00eab2;
+
+    box-shadow:
+        0 0 25px rgba(0, 230, 180, 0.18),
+        inset 0 0 30px rgba(0, 230, 180, 0.08);
+}
+
+
+/* ==============================
+   CARD TITLE
+============================== */
+
+.device-card h2 {
+
+    text-align: center;
+
+    font-size: 21px;
+
+    line-height: 1.1;
+
+    margin-top: 5px;
+
+    letter-spacing: 0.5px;
+}
+
+.device-card p {
+
+    text-align: center;
+
+    color: #c7d4e2;
+
+    font-size: 14px;
+
+    line-height: 1.45;
+
+    min-height: 43px;
+}
+
+
+/* ==============================
+   CARD LINE
+============================== */
+
+.card-line {
+
+    width: 100%;
+    height: 3px;
+
+    position: relative;
+
+    margin: 4px 0 3px;
+
+    background:
+        rgba(255,255,255,0.08);
+
+    border-radius: 5px;
+}
+
+.card-line::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    height: 3px;
+
+    width: 75%;
+
+    border-radius: 5px;
+}
+
+.robot-card .card-line::before {
+    background: #08c8ff;
+    box-shadow: 0 0 8px #08c8ff;
+}
+
+.handheld-card .card-line::before {
+    background: #9b50ff;
+    box-shadow: 0 0 8px #9b50ff;
+}
+
+.dashboard-card .card-line::before {
+    background: #00eab2;
+    box-shadow: 0 0 8px #00eab2;
+}
+
+
+/* ==============================
+   CARD BUTTON
+============================== */
+
+.card-button {
+
+    width: 100%;
+
+    height: 52px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    border: 1px solid rgba(255,255,255,0.2);
+
+    background:
+        rgba(7, 28, 50, 0.8);
+
+    transition: 0.25s;
+}
+
+.device-card:hover .card-button {
+    background:
+        rgba(12, 50, 78, 0.95);
+}
+
+.robot-card .card-button {
+    border-color: #08c8ff;
+}
+
+.handheld-card .card-button {
+    border-color: #9b50ff;
+}
+
+.dashboard-card .card-button {
+    border-color: #00eab2;
+}
+
+
+/* ==============================
+   ARROW
+============================== */
+
+.arrow {
+
+    font-size: 20px;
+
+    transition: 0.25s;
+}
+
+.device-card:hover .arrow {
+    transform: translateX(5px);
+}
+
+
+/* ==============================
+   BOTTOM TEXT
+============================== */
+
+.bottom-info {
+
+    position: absolute;
+
+    left: 60px;
+    right: 50px;
+
+    bottom: 17px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    z-index: 30;
+
+    pointer-events: none;
+}
+
+.bottom-left,
+.bottom-right {
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    color: #bdd2e6;
+}
+
+.bottom-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+/* ==============================
+   GLOW EFFECT
+============================== */
+
+.glow {
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    border-radius: 50%;
+
+    filter: blur(100px);
+
+    opacity: 0.12;
+
+    pointer-events: none;
+}
+
+.glow-blue {
+
+    left: 100px;
+    bottom: 50px;
+
+    background: #008cff;
+}
+
+.glow-purple {
+
+    left: 400px;
+    bottom: 30px;
+
+    background: #8b3dff;
+}
+
+.glow-green {
+
+    left: 700px;
+    bottom: 40px;
+
+    background: #00e6ae;
+}
+
+
+
+/* ==============================
+   ANIMATION
+============================== */
+
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.hero-content {
+    animation: fadeUp 0.9s ease forwards;
+}
+
+.device-card {
+    animation: fadeUp 0.8s ease forwards;
+}
+
+.device-card:nth-child(1) {
+    animation-delay: 0.15s;
+}
+
+.device-card:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.device-card:nth-child(3) {
+    animation-delay: 0.45s;
+}
+
+
+/* ==============================
+   CARD HOVER GLOW
+============================== */
+
+.robot-card:hover {
+    box-shadow:
+        0 0 40px rgba(0, 194, 255, 0.35),
+        0 20px 50px rgba(0,0,0,0.45);
+}
+
+.handheld-card:hover {
+    box-shadow:
+        0 0 40px rgba(142, 67, 255, 0.35),
+        0 20px 50px rgba(0,0,0,0.45);
+}
+
+.dashboard-card:hover {
+    box-shadow:
+        0 0 40px rgba(0, 236, 184, 0.35),
+        0 20px 50px rgba(0,0,0,0.45);
+}
+
+
+/* ==============================
+   BACKGROUND GRID
+============================== */
+
+.home-page::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 160, 255, 0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 160, 255, 0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 50px 50px;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* ==============================
+   DARK BOTTOM GRADIENT
+============================== */
+
+.home-page::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 35%;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(1, 8, 18, 0.85),
+            transparent
+        );
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* ==============================
+   TABLET
+============================== */
+
+@media (max-width: 1200px) {
+
+    .hero {
+        padding-left: 40px;
+        padding-right: 30px;
+    }
+
+    .hero-content {
+        width: 520px;
+    }
+    <!-- =====================================================
+     RAILSECURE AI — SYSTEM MODULES
+===================================================== -->
+
+
+<div class="system-modules">
+
+    <!-- QUADRUPED ROBOT -->
+
+    <a href="quadruped.html" class="module-card robot-module">
+
+        <div class="module-number">01</div>
+
+        <div class="module-icon">
+            🤖
+        </div>
+
+        <div class="module-content">
+
+            <span class="module-label">
+                AUTONOMOUS UNIT
+            </span>
+
+            <h3>
+                Quadruped Robot
+            </h3>
+
+            <p>
+                Autonomous patrol, area scanning
+                and AI-assisted threat inspection.
+            </p>
+
+        </div>
+
+        <div class="module-arrow">
+            →
+        </div>
+
+    </a>
+
+
+    <!-- HANDHELD DEVICE -->
+
+    <a href="handheld.html" class="module-card handheld-module">
+
+        <div class="module-number">02</div>
+
+        <div class="module-icon">
+            📱
+        </div>
+
+        <div class="module-content">
+
+            <span class="module-label">
+                FIELD DEVICE
+            </span>
+
+            <h3>
+                Handheld Device
+            </h3>
+
+            <p>
+                Portable sensing, camera monitoring
+                and real-time operator control.
+            </p>
+
+        </div>
+
+        <div class="module-arrow">
+            →
+        </div>
+
+    </a>
+
+
+    <!-- CONTROL ROOM -->
+
+    <a href="control-room.html" class="module-card control-module">
+
+        <div class="module-number">03</div>
+
+        <div class="module-icon">
+            🖥️
+        </div>
+
+        <div class="module-content">
+
+            <span class="module-label">
+                COMMAND CENTRE
+            </span>
+
+            <h3>
+                Control Room
+            </h3>
+
+            <p>
+                Central dashboard for alerts,
+                monitoring and security operations.
+            </p>
+
+        </div>
+
+        <div class="module-arrow">
+            →
+        </div>
+
+    </a>
+
+</div>
+
+    .hero h1 {
+        font-size: 64px;
+    }
+
+    .hero-description {
+        width: 480px;
+        font-size: 18px;
+    }
+
+    .device-container {
+        gap: 12px;
+    }
+
+    .device-card {
+        width: 230px;
+        height: 345px;
+    }
+
+}
+
+
+/* ==============================
+   SMALL LAPTOP
+============================== */
+
+@media (max-width: 950px) {
+
+    .top-bar {
+        padding-right: 25px;
+    }
+
+    .hero {
+        padding-left: 30px;
+        padding-top: 90px;
+    }
+
+    .hero-content {
+        width: 480px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+    }
+
+    .hero-description {
+        width: 430px;
+        font-size: 17px;
+    }
+
+    .device-container {
+        margin-bottom: 50px;
+    }
+
+    .device-card {
+        width: 205px;
+        height: 320px;
+        padding: 18px 15px;
+    }
+
+    .device-icon {
+        width: 100px;
+        height: 100px;
+        font-size: 45px;
+    }
+
+    .device-card h2 {
+        font-size: 18px;
+    }
+
+}
+
+
+/* ==============================
+   TABLET / MOBILE
+============================== */
+
+@media (max-width: 760px) {
+
+    .home-page {
+
+        min-height: 100vh;
+
+        background-position: 58% center;
+    }
+
+    .top-bar {
+
+        height: 55px;
+
+        padding: 0 18px;
+
+        justify-content: flex-end;
+    }
+
+    .top-brand {
+
+        font-size: 9px;
+
+        letter-spacing: 1.5px;
+    }
+
+    .india-line span {
+
+        width: 15px;
+        height: 3px;
+    }
+
+    .hero {
+
+        min-height: 100vh;
+
+        padding: 75px 20px 25px;
+
+        justify-content: flex-start;
+    }
+
+    .hero-content {
+
+        width: 100%;
+
+        padding-top: 25px;
+    }
+
+    .hero-small {
+
+        font-size: 11px;
+
+        letter-spacing: 3px;
+
+        margin-bottom: 17px;
+    }
+
+    .blue-line {
+
+        width: 60px;
+
+        margin-bottom: 18px;
+    }
+
+    .hero h1 {
+
+        font-size: 48px;
+
+        line-height: 1;
+
+        letter-spacing: -2px;
+
+        margin-bottom: 20px;
+    }
+
+    .hero-description {
+
+        width: 90%;
+
+        font-size: 16px;
+
+        line-height: 1.5;
+    }
+
+    .device-container {
+
+        position: relative;
+
+        margin-top: auto;
+
+        margin-bottom: 40px;
+
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .device-card {
+
+        width: 100%;
+
+        height: 145px;
+
+        min-height: 145px;
+
+        padding: 15px 18px;
+
+        display: grid;
+
+        grid-template-columns: 90px 1fr;
+
+        grid-template-rows: auto auto auto;
+
+        column-gap: 15px;
+
+        text-align: left;
+    }
+
+    .card-number {
+
+        top: 12px;
+        right: 15px;
+    }
+
+    .device-icon {
+
+        grid-row: 1 / 4;
+
+        width: 80px;
+        height: 80px;
+
+        font-size: 38px;
+
+        align-self: center;
+    }
+
+    .device-card h2 {
+
+        text-align: left;
+
+        font-size: 18px;
+
+        margin: 0;
+
+        padding-right: 25px;
+    }
+
+    .device-card p {
+
+        text-align: left;
+
+        font-size: 12px;
+
+        min-height: auto;
+    }
+
+    .card-line {
+
+        width: 95%;
+
+        margin: 3px 0;
+    }
+
+    .card-button {
+
+        height: 35px;
+
+        font-size: 11px;
+
+        width: 95%;
+    }
+
+    .bottom-info {
+
+        display: none;
+    }
+
+}
+
+
+/* ==============================
+   PHONE
+============================== */
+
+@media (max-width: 480px) {
+
+    .hero {
+
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .hero h1 {
+
+        font-size: 40px;
+    }
+
+    .hero-small {
+
+        font-size: 9px;
+
+        letter-spacing: 2px;
+    }
+
+    .hero-description {
+
+        width: 100%;
+
+        font-size: 14px;
+    }
+
+    .device-card {
+
+        height: 132px;
+
+        min-height: 132px;
+
+        grid-template-columns: 75px 1fr;
+
+        column-gap: 12px;
+
+        padding: 12px 14px;
+    }
+
+    .device-icon {
+
+        width: 67px;
+        height: 67px;
+
+        font-size: 31px;
+    }
+
+    .device-card h2 {
+
+        font-size: 15px;
+    }
+
+    .device-card p {
+
+        font-size: 10px;
+    }
+
+    .card-button {
+
+        height: 31px;
+
+        font-size: 9px;
+    }
+
+}
+
+
+/* ==============================
+   ACCESSIBILITY
+============================== */
+
+.device-card:focus {
+
+    outline: 2px solid #08bfff;
+
+    outline-offset: 4px;
+}
+/* =====================================================
+   SYSTEM MODULES
+===================================================== */
+
+.system-modules {
+
+    position: absolute;
+
+    right: 55px;
+    bottom: 55px;
+
+    width: 600px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 14px;
+
+    z-index: 10;
+}
+
+
+/* =====================================================
+   MODULE CARD
+===================================================== */
+
+.module-card {
+
+    position: relative;
+
+    min-height: 235px;
+
+    padding: 20px 17px;
+
+    text-decoration: none;
+
+    color: white;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(7, 35, 58, 0.90),
+            rgba(3, 18, 31, 0.92)
+        );
+
+    border:
+        1px solid rgba(60, 157, 218, 0.38);
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.30);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+
+.module-card:hover {
+
+    transform:
+        translateY(-8px);
+
+    border-color:
+        #18a8ff;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(8, 58, 91, 0.95),
+            rgba(4, 24, 40, 0.96)
+        );
+
+    box-shadow:
+        0 20px 45px rgba(0,130,255,0.20);
+}
+
+
+/* =====================================================
+   CARD GLOW
+===================================================== */
+
+.module-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    top: -60px;
+    right: -55px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,150,255,0.18);
+
+    filter: blur(20px);
+
+    transition: .3s;
+}
+
+
+.module-card:hover::before {
+
+    transform:
+        scale(1.5);
+
+}
+
+
+/* =====================================================
+   NUMBER
+===================================================== */
+
+.module-number {
+
+    position: absolute;
+
+    top: 13px;
+    right: 15px;
+
+    color:
+        rgba(170,210,235,0.45);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+/* =====================================================
+   ICON
+===================================================== */
+
+.module-icon {
+
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background:
+        rgba(0,132,220,0.16);
+
+    border:
+        1px solid rgba(30,160,235,0.30);
+
+    font-size: 29px;
+
+    margin-bottom: 18px;
+
+    transition: .25s;
+}
+
+
+.module-card:hover .module-icon {
+
+    transform:
+        scale(1.08)
+        rotate(-3deg);
+
+    background:
+        rgba(0,150,240,0.25);
+
+}
+
+
+/* =====================================================
+   LABEL
+===================================================== */
+
+.module-label {
+
+    display: block;
+
+    color:
+        #50baff;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    margin-bottom: 7px;
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+.module-content h3 {
+
+    font-size: 17px;
+
+    line-height: 1.2;
+
+    margin-bottom: 10px;
+
+    font-weight: 800;
+}
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.module-content p {
+
+    color:
+        #9fb5c5;
+
+    font-size: 10px;
+
+    line-height: 1.55;
+}
+
+
+/* =====================================================
+   ARROW
+===================================================== */
+
+.module-arrow {
+
+    position: absolute;
+
+    bottom: 15px;
+    right: 17px;
+
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(0,130,220,0.16);
+
+    color:
+        #42baff;
+
+    font-size: 16px;
+
+    transition: .25s;
+}
+
+
+.module-card:hover .module-arrow {
+
+    background:
+        #078cff;
+
+    color:
+        white;
+
+    transform:
+        translateX(4px);
+
+}
+
+
+/* =====================================================
+   DIFFERENT MODULE ACCENTS
+===================================================== */
+
+.robot-module {
+    border-color:
+        rgba(0,145,255,0.42);
+}
+
+.handheld-module {
+    border-color:
+        rgba(255,190,50,0.38);
+}
+
+.handheld-module .module-label {
+    color:
+        #ffc94d;
+}
+
+.control-module {
+    border-color:
+        rgba(45,225,175,0.38);
+}
+
+.control-module .module-label {
+    color:
+        #35e6b0;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1200px) {
+
+    .system-modules {
+
+        right: 30px;
+        bottom: 35px;
+
+        width: 540px;
+
+    }
+
+    .module-card {
+
+        min-height: 215px;
+
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .system-modules {
+
+        position: relative;
+
+        right: auto;
+        bottom: auto;
+
+        width: calc(100% - 50px);
+
+        margin:
+            50px auto 30px;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .system-modules {
+
+        width:
+            calc(100% - 30px);
+
+        grid-template-columns:
+            1fr;
+
+        gap: 10px;
+
+    }
+
+    .module-card {
+
+        min-height: 145px;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 14px;
+
+        padding: 15px;
+
+    }
+
+    .module-icon {
+
+        margin-bottom: 0;
+
+        flex-shrink: 0;
+
+    }
+
+    .module-content h3 {
+
+        font-size: 15px;
+
+    }
+
+    .module-content p {
+
+        font-size: 9px;
+
+    }
+
+}
+
+
+
+/* ==============================
+   CLOSE STYLE
+============================== */
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =================================
+     HOME PAGE
+================================= -->
+
+<div class="home-page">
+
+
+    <!-- ==============================
+         TOP RIGHT BRAND
+    ============================== -->
+
+    <div class="top-bar">
+
+        <div class="top-brand">
+
+            <div class="india-line">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+            <span>
+                BUILT FOR A SAFER INDIA
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==============================
+         HERO SECTION
+    ============================== -->
+
+    <main class="hero">
+
+
+        <!-- ==========================
+             HERO TEXT
+        =========================== -->
+
+        <section class="hero-content">
+
+
+            <div class="hero-small">
+
+                INTELLIGENCE
+                <span>•</span>
+                SAFETY
+                <span>•</span>
+                EVERY PLATFORM
+
+            </div>
+
+
+            <div class="blue-line"></div>
+
+
+            <h1>
+
+                RailSecure
+                <span class="blue">AI</span>
+
+                <br>
+
+                for a
+                <span class="safer">Safer</span>
+                India
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                Real-time detection of narcotics and explosives
+                using mobile (quadruped) and handheld devices
+                across Indian Railways.
+
+            </p>
+
+
+        </section>
+
+
+        <!-- ==============================
+             DEVICE CARDS
+        ============================== -->
+
+        <section class="device-container">
+
+
+            <!-- ==========================
+                 CARD 01
+            =========================== -->
+
+            <a
+                href="quadruped.html"
+                class="device-card robot-card"
+                aria-label="Open Quadruped Robot">
+
+
+                <span class="card-number">
+                    01
+                </span>
+
+
+                <div class="device-icon">
+
+                    🤖
+
+                </div>
+
+
+                <h2>
+
+                    QUADRUPED
+                    <br>
+                    ROBOT
+
+                </h2>
+
+
+                <p>
+
+                    Autonomous Railway
+                    Inspection Unit
+
+                </p>
+
+
+                <div class="card-line"></div>
+
+
+                <div class="card-button">
+
+                    START SIMULATION
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </div>
+
+
+            </a>
+
+
+
+            <!-- ==========================
+                 CARD 02
+            =========================== -->
+
+            <a
+                href="handheld.html"
+                class="device-card handheld-card"
+                aria-label="Open Handheld Device">
+
+
+                <span class="card-number">
+                    02
+                </span>
+
+
+                <div class="device-icon">
+
+                    📱
+
+                </div>
+
+
+                <h2>
+
+                    HANDHELD
+                    <br>
+                    DEVICE
+
+                </h2>
+
+
+                <p>
+
+                    Portable Threat
+                    Detection Unit
+
+                </p>
+
+
+                <div class="card-line"></div>
+
+
+                <div class="card-button">
+
+                    OPEN SIMULATOR
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </div>
+
+
+            </a>
+
+
+
+            <!-- ==========================
+                 CARD 03
+            =========================== -->
+
+            <a
+                href="control_room.html"
+                class="device-card dashboard-card"
+                aria-label="Open Control Room Dashboard">
+
+
+                <span class="card-number">
+                    03
+                </span>
+
+
+                <div class="device-icon">
+
+                    🖥️
+
+                </div>
+
+
+                <h2>
+
+                    CONTROL ROOM
+                    <br>
+                    DASHBOARD
+
+                </h2>
+
+
+                <p>
+
+                    Central AI Monitoring
+                    &amp; RPF Response
+
+                </p>
+
+
+                <div class="card-line"></div>
+
+
+                <div class="card-button">
+
+                    OPEN DASHBOARD
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </div>
+
+
+            </a>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ==============================
+         BOTTOM INFORMATION
+    ============================== -->
+
+    <div class="bottom-info">
+
+
+        <div class="bottom-left">
+
+            INDIAN RAILWAYS
+            &nbsp; | &nbsp;
+            SAFER PEOPLE
+            &nbsp; | &nbsp;
+            STRONGER NATION
+
+        </div>
+
+
+        <div class="bottom-right">
+
+            <span>
+                POWERED BY AI
+            </span>
+
+            <span>|</span>
+
+            <span>
+                SECURING TOMORROW
+            </span>
+
+            <span>
+                🇮🇳
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ==============================
+         DECORATIVE GLOWS
+    ============================== -->
+
+    <div class="glow glow-blue"></div>
+
+    <div class="glow glow-purple"></div>
+
+    <div class="glow glow-green"></div>
+
+
+</div>
+
+
+
+<script>
+
+/* =========================================
+   DEVICE CARD CLICK
+========================================= */
+
+const deviceCards = document.querySelectorAll(".device-card");
+
+deviceCards.forEach((card) => {
+
+    card.addEventListener("click", function () {
+
+        const destination = this.getAttribute("href");
+
+        if (destination) {
+
+            window.location.href = destination;
+
+        }
+
+    });
+
+});
+
+
+/* =========================================
+   CARD HOVER EFFECT
+========================================= */
+
+deviceCards.forEach((card) => {
+
+    card.addEventListener("mousemove", function (event) {
+
+        const rect = this.getBoundingClientRect();
+
+        const x =
+            event.clientX - rect.left;
+
+        const y =
+            event.clientY - rect.top;
+
+        const centerX =
+            rect.width / 2;
+
+        const centerY =
+            rect.height / 2;
+
+        const rotateX =
+            (y - centerY) / 35;
+
+        const rotateY =
+            (centerX - x) / 35;
+
+        this.style.transform =
+            `perspective(800px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)
+             translateY(-8px)
+             scale(1.02)`;
+
+    });
+
+
+    card.addEventListener("mouseleave", function () {
+
+        this.style.transform = "";
+
+    });
+
+});
+
+
+/* =========================================
+   SIMPLE PAGE LOAD EFFECT
+========================================= */
+
+window.addEventListener("load", function () {
+
+    document.body.classList.add("loaded");
+
+});
+
+
+/* =========================================
+   KEYBOARD ACCESS
+========================================= */
+
+deviceCards.forEach((card) => {
+
+    card.addEventListener("keydown", function (event) {
+
+        if (
+            event.key === "Enter" ||
+            event.key === " "
+        ) {
+
+            event.preventDefault();
+
+            this.click();
+
+        }
+
+    });
+
+});
+
+
+/* =========================================
+   PREVENT ACCIDENTAL DRAG
+========================================= */
+
+document.querySelectorAll("img").forEach((img) => {
+
+    img.addEventListener("dragstart", function (event) {
+
+        event.preventDefault();
+
+    });
+
+});
+
+
+/* =========================================
+   CONSOLE INFO
+========================================= */
+
+console.log(
+    "RailSecure AI — Virtual Prototype Simulator"
+);
+
+console.log(
+    "Select Quadruped Robot, Handheld Device or Control Room Dashboard."
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RailSecure AI - Handheld Device</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;color:#eaf7ff;min-height:100vh;background:radial-gradient(circle at 50% 20%,#0a3555 0%,#041b2d 38%,#010b14 100%);overflow-x:hidden}
+button{font-family:inherit;cursor:pointer}
+.header{height:100px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;position:relative;background:rgba(2,18,32,.92);border-bottom:1px solid #164765}
+.back-btn{width:200px;height:54px;border-radius:8px;border:1px solid #1676ad;background:rgba(4,40,67,.8);color:#5bd6ff;font-size:16px}
+.back-btn:hover{background:#07517b}
+.header-title{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:15px}
+.device-icon{font-size:45px;color:#18caff;filter:drop-shadow(0 0 10px rgba(0,200,255,.6))}
+.header-title h1{font-size:34px;letter-spacing:1px;font-weight:800}
+.header-title p{color:#18caff;font-size:17px;margin-top:4px}
+.header-right{display:flex;align-items:center;gap:20px}
+.brand{text-align:right}.brand h2{color:#18caff;font-size:20px}.brand p{color:#9ec9df;font-size:14px;margin-top:3px}
+.connection{padding:14px 20px;border-radius:9px;border:1px solid #145275;background:rgba(5,42,66,.75);font-size:15px}
+.online-dot{display:inline-block;width:13px;height:13px;border-radius:50%;background:#00ef9a;box-shadow:0 0 12px #00ef9a;margin-right:8px}
+.emblem{width:62px;height:62px;border-radius:50%;border:2px solid #aaa;display:flex;align-items:center;justify-content:center;font-size:28px;background:radial-gradient(circle,#8c1720,#42090d)}
+.top-nav{display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 230px;gap:16px;padding:16px 24px}
+.nav-btn{height:68px;border-radius:9px;border:1px solid #154d70;background:linear-gradient(145deg,#092d4a,#041b2e);color:#d9efff;font-size:16px}
+.nav-btn:hover{border-color:#19c9ff}.nav-btn.active{background:linear-gradient(145deg,#0876ce,#064d8d);border-color:#1ac9ff;box-shadow:0 0 20px rgba(0,170,255,.35)}
+.nav-icon{font-size:23px;color:#78dfff;margin-right:8px}
+.clock-box{border:1px solid #164966;border-radius:9px;background:rgba(5,28,44,.8);text-align:center;padding:9px}
+.clock-date{font-size:13px;color:#c4dbea}.clock-time{font-size:25px;font-weight:bold;margin-top:5px}
+.main{display:grid;grid-template-columns:330px minmax(500px,1fr) 420px;gap:16px;padding:8px 20px 20px}
+.card{background:linear-gradient(145deg,rgba(5,35,57,.97),rgba(2,19,32,.97));border:1px solid #155579;border-radius:10px;overflow:hidden}
+.card-title{padding:15px;color:#20caff;font-size:17px;font-weight:bold;border-bottom:1px solid #164766}
+.status-title{display:flex;align-items:center;justify-content:space-between}.status-online{color:#9cefd3;font-size:13px}.status-online:before{content:"";display:inline-block;width:13px;height:13px;border-radius:50%;background:#00ef9a;box-shadow:0 0 12px #00ef9a;margin-right:7px}
+.device-image{height:235px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.handheld{width:150px;height:180px;position:relative;transform:rotate(4deg);border-radius:18px 18px 12px 12px;background:linear-gradient(135deg,#354753,#07131e 65%);border:3px solid #172a37;box-shadow:-10px 12px 25px rgba(0,0,0,.55),inset 0 0 20px rgba(90,190,240,.12)}
+.handheld:before{content:"";position:absolute;width:29px;height:43px;left:-11px;top:35px;border-radius:8px 4px 4px 8px;background:linear-gradient(90deg,#07121c,#1b303d);border:2px solid #263c49}
+.handheld-screen{position:absolute;left:24px;top:22px;width:100px;height:62px;border-radius:8px;border:1px solid #20799d;background:radial-gradient(circle,#0b5272,#031724);display:flex;align-items:center;justify-content:center;flex-direction:column;color:#62ddff;font-size:10px;box-shadow:inset 0 0 15px rgba(0,190,255,.2)}
+.scan-circle{width:25px;height:25px;border:3px solid #20c9ff;border-right-color:transparent;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:4px}
+@keyframes spin{to{transform:rotate(360deg)}}.scan-light{position:absolute;left:8px;top:60px;width:5px;height:30px;border-radius:5px;background:#16c9ff;box-shadow:0 0 14px #16c9ff}
+.device-logo{position:absolute;left:28px;bottom:21px;width:92px;padding:6px 3px;text-align:center;border-radius:4px;background:#dce4e7;color:#18252d;font-size:8px;line-height:11px;font-weight:bold}
+.handheld-handle{position:absolute;width:68px;height:92px;left:38px;bottom:-67px;border-radius:5px 5px 17px 17px;background:linear-gradient(90deg,#101b24,#344651,#101b24)}
+.metrics{padding:0 15px 15px}.metric{display:grid;grid-template-columns:30px 1fr auto;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(40,100,130,.2)}
+.metric-icon{font-size:19px;color:#6ddcff}.metric-name{font-size:14px;color:#dcebf4}.metric-value{font-size:14px;color:#e9f7ff;text-align:right}
+.progress{grid-column:2/4;height:5px;background:#0b2638;border-radius:5px;overflow:hidden}.progress-bar{height:100%;width:86%;border-radius:5px;background:linear-gradient(90deg,#08aeea,#4ddcff)}
+.scan-controls{margin-top:16px;padding-bottom:12px}.control-body{padding:12px}.control-btn{width:100%;height:47px;margin-bottom:8px;border-radius:7px;border:1px solid #1b6188;background:linear-gradient(145deg,#0b4167,#062b46);color:#e8f7ff;font-size:15px;font-weight:bold}
+.control-btn:hover{border-color:#1ac9ff}.control-btn.start{background:linear-gradient(145deg,#078de1,#075ca5);border-color:#17caff}.control-btn.stop{background:linear-gradient(145deg,#123b59,#08273e)}
+.action-status{display:none;padding:9px;margin-top:3px;border-radius:6px;background:rgba(0,150,210,.12);border:1px solid #176386;color:#66dcff;text-align:center;font-size:12px}.action-status.show{display:block}
+.live-feed{height:495px;position:relative;overflow:hidden}.feed-image{width:100%;height:100%;position:relative;background:linear-gradient(rgba(0,0,0,.12),rgba(0,0,0,.22)),url("https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1400&q=90") center/cover}
+.feed-image:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.48),transparent 32%,transparent 72%,rgba(0,0,0,.45));pointer-events:none}
+.feed-label{position:absolute;top:17px;left:18px;z-index:5;font-size:18px;font-weight:bold}.feed-label .red{display:inline-block;width:14px;height:14px;border-radius:50%;background:#ff3340;box-shadow:0 0 10px #ff3340;margin-right:7px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.35}}.feed-info{position:absolute;right:17px;top:16px;z-index:5;text-align:right;font-size:14px;line-height:22px;text-shadow:0 1px 3px #000}
+.scan-target{position:absolute;width:240px;height:190px;left:28%;top:43%;border:2px solid #00ef9a;z-index:5;box-shadow:0 0 12px rgba(0,239,154,.25)}
+.scan-target:before,.scan-target:after{content:"";position:absolute;width:22px;height:22px}.scan-target:before{left:-3px;top:-3px;border-left:4px solid #00ef9a;border-top:4px solid #00ef9a}.scan-target:after{right:-3px;bottom:-3px;border-right:4px solid #00ef9a;border-bottom:4px solid #00ef9a}
+.scanning-label{position:absolute;top:-31px;left:-2px;padding:7px 13px;background:#00a86b;color:white;font-size:14px;font-weight:bold;border-radius:3px 3px 0 0}
+.feed-status{position:absolute;bottom:18px;left:16px;z-index:6;background:rgba(2,20,33,.9);padding:11px 15px;border-radius:7px;border:1px solid #194b66;font-size:14px}.feed-status:before{content:"";display:inline-block;width:8px;height:8px;background:#00ef9a;border-radius:50%;margin-right:7px;box-shadow:0 0 7px #00ef9a}
+.fullscreen-btn{position:absolute;right:15px;bottom:15px;z-index:7;width:42px;height:42px;border-radius:7px;border:1px solid #527287;background:rgba(2,20,33,.85);color:white;font-size:20px}
+.recent-scans{margin-top:16px;min-height:220px}.recent-header{display:flex;align-items:center;justify-content:space-between}.recent-header .card-title{flex:1}.view-all-btn{margin-right:17px;background:transparent;border:none;color:#25caff;font-size:14px}
+.scan-list{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:12px 15px 15px}.scan-item{border:1px solid #155276;border-radius:7px;background:rgba(4,27,43,.8);overflow:hidden}
+.scan-thumb{height:105px;position:relative;background:linear-gradient(135deg,#31546a,#0b1d2b)}.bag-shape{position:absolute;width:65px;height:50px;left:50%;top:50%;transform:translate(-50%,-45%);background:linear-gradient(145deg,#172b37,#050d13);border-radius:8px 8px 5px 5px}.bag-shape:before{content:"";position:absolute;width:30px;height:17px;left:17px;top:-12px;border:4px solid #101f2a;border-bottom:none;border-radius:12px 12px 0 0}.dark-bag{background:linear-gradient(145deg,#0d1115,#020508)}
+.bottle{position:absolute;width:27px;height:68px;left:50%;top:48%;transform:translate(-50%,-50%);background:linear-gradient(90deg,#17496b,#4ca8d2,#17496b);border-radius:5px 5px 9px 9px}.bottle:before{content:"";position:absolute;width:12px;height:9px;left:7px;top:-8px;background:#17608b;border-radius:3px 3px 0 0}
+.parcel{position:absolute;width:72px;height:55px;left:50%;top:50%;transform:translate(-50%,-50%);background:#b18a55;border:2px solid #775b36;box-shadow:0 8px 12px rgba(0,0,0,.4)}.parcel:after{content:"";position:absolute;left:50%;top:0;width:3px;height:100%;background:#73552f}
+.scan-result{display:inline-block;margin:8px 7px 4px;padding:4px 8px;border-radius:5px;font-size:12px;font-weight:bold}.scan-result.clear{background:#087d52;color:#caffed}.scan-result.threat{background:#a91d28;color:#ffe0e2}.scan-time{padding:2px 8px 10px;color:#bdd5e2;font-size:12px}
+.right-column{display:flex;flex-direction:column;gap:16px}.analysis-card,.modes-card{flex:1}.analysis-body,.mode-body{padding:14px}
+.detection-main{display:flex;gap:14px}.detection-image{width:145px;height:110px;border-radius:7px;background:linear-gradient(135deg,#263f4e,#07141e);position:relative;overflow:hidden}
+.detection-object{position:absolute;width:70px;height:52px;left:50%;top:50%;transform:translate(-50%,-50%);background:linear-gradient(145deg,#111,#020507);border-radius:7px}
+.detection-text{flex:1}.threat-title{color:#ff5b63;font-size:20px;font-weight:bold}.confidence{margin-top:8px;color:#b9d6e5;font-size:13px}.confidence strong{color:#fff}.confidence-bar{height:7px;background:#182e3d;border-radius:7px;margin-top:7px;overflow:hidden}.confidence-fill{width:94%;height:100%;background:#ff4652;border-radius:7px}
+.analysis-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(40,100,130,.25);font-size:13px}.analysis-row span:first-child{color:#91b6c8}.analysis-row span:last-child{color:#e8f7ff;text-align:right}
+.threat-box{margin-top:12px;padding:10px;border-radius:6px;border:1px solid #8e252e;background:rgba(160,25,35,.13);color:#ff9da3;font-size:12px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mode-btn{height:78px;border-radius:8px;border:1px solid #155276;background:#06263c;color:#bfe4f5;font-size:13px}.mode-btn.active{border-color:#18caff;background:#075b89;color:#fff;box-shadow:0 0 15px rgba(0,180,255,.2)}
+.tab-message{display:none;position:fixed;inset:0;background:rgba(1,11,20,.96);z-index:50;padding:100px 8%;overflow:auto}.tab-message.active{display:block}.tab-message h2{color:#20caff;font-size:30px;margin-bottom:18px}.tab-message p{color:#b9d6e5;line-height:1.7;margin-bottom:20px}.close-tab{padding:12px 20px;border:1px solid #1683b6;background:#073b5c;color:#fff;border-radius:7px}
+@media(max-width:1250px){.main{grid-template-columns:280px 1fr}.right-column{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:15px}.top-nav{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:850px){.header{height:auto;padding:15px;flex-wrap:wrap;gap:15px}.header-title{position:static;transform:none;width:100%;justify-content:center;order:-1}.header-title h1{font-size:25px}.header-right{width:100%;justify-content:center}.top-nav{grid-template-columns:repeat(2,1fr)}.main{grid-template-columns:1fr}.right-column{grid-column:auto;display:block}.analysis-card,.modes-card{margin-top:16px}.scan-list{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:550px){.top-nav{grid-template-columns:1fr}.header-right{flex-wrap:wrap}.brand{display:none}.main{padding:8px 10px}.scan-list{grid-template-columns:1fr 1fr}.detection-main{flex-direction:column}.detection-image{width:100%}}
+</style>
+</head>
+<body>
+
+<header class="header">
+<button class="back-btn" onclick="goHome()">← &nbsp; Back to Home</button>
+<div class="header-title">
+<div class="device-icon">◉</div>
+<div><h1>HANDHELD DEVICE</h1><p>PORTABLE THREAT DETECTION UNIT</p></div>
+</div>
+<div class="header-right">
+<div class="brand"><h2>RailSecure AI</h2><p>Indian Railways</p></div>
+<div class="connection"><span class="online-dot"></span>Device Connected</div>
+<div class="emblem">✺</div>
+</div>
+</header>
+
+<nav class="top-nav">
+<button class="nav-btn active" onclick="switchTab('Live Scan',this)"><span class="nav-icon">▣</span>Live Scan</button>
+<button class="nav-btn" onclick="switchTab('Detection Results',this)"><span class="nav-icon">△</span>Detection Results</button>
+<button class="nav-btn" onclick="switchTab('Scan History',this)"><span class="nav-icon">◫</span>Scan History</button>
+<button class="nav-btn" onclick="switchTab('Device Info',this)"><span class="nav-icon">♢</span>Device Info</button>
+<button class="nav-btn" onclick="switchTab('Settings',this)"><span class="nav-icon">⚙</span>Settings</button>
+<div class="clock-box"><div class="clock-date" id="clockDate"></div><div class="clock-time" id="clockTime"></div></div>
+</nav>
+
+<main class="main">
+
+<section class="left-column">
+<div class="card device-status">
+<div class="card-title status-title"><span>DEVICE STATUS</span><span class="status-online">ONLINE</span></div>
+<div class="device-image">
+<div class="handheld">
+<div class="scan-light"></div>
+<div class="handheld-screen"><div class="scan-circle"></div><span id="deviceScreenText">Scanning...</span></div>
+<div class="device-logo">Indian Railways<br>RailSecure AI</div>
+<div class="handheld-handle"></div>
+</div>
+</div>
+<div class="metrics">
+<div class="metric"><div class="metric-icon">▣</div><div class="metric-name">Battery</div><div class="metric-value" id="batteryValue">86%</div><div class="progress"><div class="progress-bar" id="batteryBar"></div></div></div>
+<div class="metric"><div class="metric-icon">≋</div><div class="metric-name">Connection</div><div class="metric-value">Strong</div></div>
+<div class="metric"><div class="metric-icon">♨</div><div class="metric-name">Temperature</div><div class="metric-value">38°C</div></div>
+<div class="metric"><div class="metric-icon">◉</div><div class="metric-name">Scan Mode</div><div class="metric-value" id="scanModeText">Narcotics &amp; Explosives</div></div>
+<div class="metric"><div class="metric-icon">⚙</div><div class="metric-name">Model</div><div class="metric-value">RS-ScanPro v1.0</div></div>
+</div>
+</div>
+
+<div class="card scan-controls">
+<div class="card-title">SCAN CONTROLS</div>
+<div class="control-body">
+<button class="control-btn start" onclick="startScanning()">▶ &nbsp;&nbsp; Start Scanning</button>
+<button class="control-btn stop" onclick="stopScanning()">■ &nbsp;&nbsp; Stop Scanning</button>
+<button class="control-btn mode" onclick="switchMode()">⟳ &nbsp;&nbsp; Switch Mode</button>
+<div class="action-status" id="actionStatus">Scanner ready</div>
+</div>
+</div>
+</section>
+
+<section class="middle-column">
+<div class="card live-feed">
+<div class="feed-image">
+<div class="feed-label"><span class="red"></span>Live Camera Feed</div>
+<div class="feed-info">FPS: <span id="fps">30</span><br>AI Model: YOLOv8<br><span id="feedDate"></span></div>
+<div class="scan-target" id="scanTarget"><div class="scanning-label" id="scanningLabel">Scanning...</div></div>
+<div class="feed-status" id="feedStatus">Scanning environment...</div>
+<button class="fullscreen-btn" onclick="openFullscreen()">⛶</button>
+</div>
+</div>
+
+<div class="card recent-scans">
+<div class="recent-header"><div class="card-title">RECENT SCANS</div><button class="view-all-btn" onclick="showHistory()">View All →</button></div>
+<div class="scan-list">
+<div class="scan-item"><div class="scan-thumb"><div class="bag-shape"></div></div><div class="scan-result clear">✓ Clear</div><div class="scan-time">18:25:30</div></div>
+<div class="scan-item"><div class="scan-thumb"><div class="bottle"></div></div><div class="scan-result clear">✓ Clear</div><div class="scan-time">18:24:12</div></div>
+<div class="scan-item"><div class="scan-thumb"><div class="bag-shape dark-bag"></div></div><div class="scan-result threat">⚠ Threat</div><div class="scan-time">18:22:45</div></div>
+<div class="scan-item"><div class="scan-thumb"><div class="parcel"></div></div><div class="scan-result clear">✓ Clear</div><div class="scan-time">18:20:11</div></div>
+</div>
+</div>
+</section>
+
+<section class="right-column">
+
+<div class="card analysis-card">
+<div class="card-title">DETECTION ANALYSIS</div>
+<div class="analysis-body">
+<div class="detection-main">
+<div class="detection-image"><div class="detection-object"></div></div>
+<div class="detection-text">
+<div class="threat-title" id="threatTitle">POTENTIAL THREAT</div>
+<div class="confidence">Confidence: <strong id="confidence">94.2%</strong></div>
+<div class="confidence-bar"><div class="confidence-fill" id="confidenceFill"></div></div>
+</div>
+</div>
+<div class="analysis-row"><span>Classification</span><span id="classification">Suspicious Object</span></div>
+<div class="analysis-row"><span>Threat Type</span><span id="threatType">Unknown / Requires Verification</span></div>
+<div class="analysis-row"><span>Location</span><span>Platform 2, Zone B</span></div>
+<div class="analysis-row"><span>Scan ID</span><span>RS-2026-0910-184</span></div>
+<div class="threat-box" id="threatBox">AI has flagged this object for manual verification by authorized personnel.</div>
+</div>
+</div>
+
+<div class="card modes-card">
+<div class="card-title">DETECTION MODES</div>
+<div class="mode-body">
+<div class="mode-grid">
+<button class="mode-btn active" onclick="setMode('Narcotics & Explosives',this)">◉<br><br>Narcotics &amp; Explosives</button>
+<button class="mode-btn" onclick="setMode('Explosives',this)">△<br><br>Explosives</button>
+<button class="mode-btn" onclick="setMode('Narcotics',this)">♢<br><br>Narcotics</button>
+<button class="mode-btn" onclick="setMode('General Scan',this)">◎<br><br>General Scan</button>
+</div>
+</div>
+</div>
+
+</section>
+</main>
+
+<div class="tab-message" id="tabMessage">
+<h2 id="tabTitle"></h2>
+<p id="tabContent"></p>
+<button class="close-tab" onclick="closeTab()">← Back to Dashboard</button>
+</div>
+
+<script>
+let scanning=true;
+let modeIndex=0;
+const modes=["Narcotics & Explosives","Explosives","Narcotics","General Scan"];
+
+function updateClock(){
+    const now=new Date();
+    document.getElementById("clockDate").textContent=
+        now.toLocaleDateString("en-IN",{weekday:"short",day:"2-digit",month:"short",year:"numeric"});
+    document.getElementById("clockTime").textContent=
+        now.toLocaleTimeString("en-IN",{hour12:false});
+    document.getElementById("feedDate").textContent=
+        now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0")+" "+
+        now.toLocaleTimeString("en-IN",{hour12:false});
+}
+setInterval(updateClock,1000);
+updateClock();
+
+function startScanning(){
+    scanning=true;
+    document.getElementById("actionStatus").textContent="Scanning started — AI detection active";
+    document.getElementById("actionStatus").classList.add("show");
+    document.getElementById("feedStatus").textContent="Scanning environment...";
+    document.getElementById("scanningLabel").textContent="Scanning...";
+    document.getElementById("deviceScreenText").textContent="Scanning...";
+    document.getElementById("scanTarget").style.borderColor="#00ef9a";
+}
+
+function stopScanning(){
+    scanning=false;
+    document.getElementById("actionStatus").textContent="Scanning stopped";
+    document.getElementById("actionStatus").classList.add("show");
+    document.getElementById("feedStatus").textContent="Scanner standby";
+    document.getElementById("scanningLabel").textContent="Standby";
+    document.getElementById("deviceScreenText").textContent="Standby";
+    document.getElementById("scanTarget").style.borderColor="#ffc107";
+}
+
+function switchMode(){
+    modeIndex=(modeIndex+1)%modes.length;
+    document.getElementById("scanModeText").textContent=modes[modeIndex];
+    document.getElementById("actionStatus").textContent="Mode changed to: "+modes[modeIndex];
+    document.getElementById("actionStatus").classList.add("show");
+}
+
+function setMode(mode,button){
+    document.getElementById("scanModeText").textContent=mode;
+    document.querySelectorAll(".mode-btn").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active");
+    document.getElementById("actionStatus").textContent="Detection mode: "+mode;
+    document.getElementById("actionStatus").classList.add("show");
+}
+
+function switchTab(title,button){
+    document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
+    button.classList.add("active");
+
+    if(title==="Live Scan"){
+        closeTab();
+        return;
+    }
+
+    const content={
+        "Detection Results":"Latest AI analysis and verification results are displayed here. Potential threats are highlighted for authorized RPF personnel.",
+        "Scan History":"Recent scans, timestamps, scan IDs and detection outcomes can be reviewed from this section.",
+        "Device Info":"RS-ScanPro v1.0 — Portable AI threat detection unit. Status: Online. Connection: Strong. Current battery: 86%.",
+        "Settings":"Device settings, detection sensitivity, operating mode and system preferences can be configured here."
+    };
+
+    document.getElementById("tabTitle").textContent=title;
+    document.getElementById("tabContent").textContent=content[title]||"Information unavailable.";
+    document.getElementById("tabMessage").classList.add("active");
+}
+
+function closeTab(){
+    document.getElementById("tabMessage").classList.remove("active");
+}
+
+function showHistory(){
+    switchTab("Scan History",document.querySelectorAll(".nav-btn")[2]);
+}
+
+function goHome(){
+    document.body.style.opacity="0";
+    setTimeout(()=>{window.location.href="index.html";},250);
+}
+
+function openFullscreen(){
+    const feed=document.querySelector(".live-feed");
+    if(document.fullscreenElement){
+        document.exitFullscreen();
+    }else{
+        feed.requestFullscreen().catch(()=>{});
+    }
+}
+
+let battery=86;
+setInterval(()=>{
+    if(scanning && battery>20){
+        battery-=0.01;
+        const rounded=Math.round(battery);
+        document.getElementById("batteryValue").textContent=rounded+"%";
+        document.getElementById("batteryBar").style.width=rounded+"%";
+    }
+},5000);
+</script>
+</body>
+</html>

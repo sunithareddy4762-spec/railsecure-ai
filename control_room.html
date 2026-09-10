@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RailSecure AI — Control Room Dashboard</title>
+<style>
+:root{
+  --bg:#03111f;--panel:#071c31;--panel2:#092640;--line:#0c5d86;
+  --cyan:#28d7ff;--cyan2:#4aaeff;--green:#00e89b;--yellow:#ffc247;
+  --red:#ff3445;--text:#eaf6ff;--muted:#8ca9be;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,Segoe UI,Arial,sans-serif;background:#020d19;color:var(--text)}
+body{overflow-x:hidden}
+button{font:inherit;color:inherit}
+.app{min-height:100vh;background:
+ radial-gradient(circle at 70% 0%,rgba(0,150,255,.13),transparent 32%),
+ linear-gradient(180deg,#041527,#020b15)}
+.topbar{height:108px;border:1px solid #0b4d70;border-radius:0 0 12px 12px;margin:0 14px;
+ display:grid;grid-template-columns:32% 38% 30%;align-items:center;padding:14px 18px;
+ background:linear-gradient(100deg,#06192b,#031321);box-shadow:0 0 30px rgba(0,150,255,.12)}
+.brand{display:flex;align-items:center;gap:16px}.logo{width:72px;height:72px;border-radius:50%;
+ display:grid;place-items:center;background:#d7192f;border:2px solid #fff3;box-shadow:0 0 20px #d7192f55}
+.logo:before{content:"✦";font-size:36px;color:white}.brand h1{margin:0;font-size:32px;letter-spacing:.5px}.brand h1 span{color:#19bfff}
+.brand p{margin:2px 0 0;color:#56b9ea;font-size:17px}.tag{font-size:12px;color:#94abc0;letter-spacing:2px;margin-top:5px}
+.title{text-align:center}.title h2{margin:0;color:#48cfff;font-size:31px;letter-spacing:1px}.title p{margin:4px 0 0;color:#8ab0c7;font-size:13px;letter-spacing:1.5px}
+.system{justify-self:end;display:flex;align-items:center;gap:15px}.online{border:1px solid #07577f;border-radius:10px;padding:13px 22px;background:#071e34}
+.online b{display:block;font-size:15px}.online small{color:#8fb0c6}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 13px var(--green);margin-right:8px}
+.clock{text-align:right}.clock .date{color:#a9bfd0;font-size:13px}.clock strong{display:block;font-size:24px;margin-top:3px}
+.layout{display:grid;grid-template-columns:190px 1fr;gap:20px;padding:10px 14px 0}
+.sidebar{border:1px solid #0b4d70;border-radius:10px;background:#04182b;padding:13px 0;min-height:calc(100vh - 128px);position:sticky;top:0}
+.nav{display:flex;align-items:center;gap:15px;width:100%;padding:16px 20px;border:0;background:transparent;color:#aac4d6;text-align:left;cursor:pointer}
+.nav:hover{background:#07365a;color:#fff}.nav.active{background:linear-gradient(90deg,#078ee9,#0861c4);color:#fff;box-shadow:0 0 18px #008cff55}.nav .ico{font-size:22px;width:25px;text-align:center}
+.alert-count{margin-left:auto;background:#f02f3f;border-radius:20px;padding:3px 8px;font-size:11px}
+.side-bottom{position:absolute;bottom:20px;padding:18px;color:#7697ad;font-size:11px;letter-spacing:1px;line-height:1.7}
+.main{min-width:0}.page{display:none;animation:fade .25s ease}.page.active{display:block}@keyframes fade{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:12px}
+.stat{border:1px solid #0b5578;border-radius:10px;background:linear-gradient(145deg,#09243b,#06182b);padding:14px 18px;min-height:82px}
+.stat .label{font-size:12px;color:#aac1d2}.stat .value{font-size:25px;font-weight:800;margin-top:5px}.up{color:#00dca0;font-size:12px;margin-left:6px}
+.content-grid{display:grid;grid-template-columns:1.45fr 1fr .9fr;gap:12px}
+.panel{border:1px solid #0a608a;border-radius:10px;background:linear-gradient(145deg,#061d32,#041426);overflow:hidden}
+.panel-head{height:52px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #0b4e70}
+.panel-head h3{margin:0;color:#2ed5ff;font-size:15px;letter-spacing:.4px}.view{color:#36c9ff;font-size:12px;cursor:pointer}
+.map-wrap{height:365px;position:relative;padding:12px}.map{width:100%;height:100%;border-radius:7px;background:
+ radial-gradient(circle at 50% 45%,#0a3150,transparent 45%),#031321;position:relative;overflow:hidden}
+.map:before{content:"";position:absolute;inset:10px;background-image:linear-gradient(25deg,transparent 48%,#0b3854 49%,transparent 51%),linear-gradient(155deg,transparent 48%,#0b3854 49%,transparent 51%);background-size:60px 60px;opacity:.55}
+.india{position:absolute;left:30%;top:7%;width:38%;height:86%;opacity:.28;clip-path:polygon(45% 0,64% 8%,59% 20%,78% 34%,68% 45%,84% 61%,67% 68%,70% 81%,54% 100%,45% 83%,32% 70%,24% 51%,8% 42%,25% 28%,18% 13%)}
+.node{position:absolute;width:8px;height:8px;border-radius:50%;background:#25eaa7;box-shadow:0 0 10px #25eaa7;z-index:2}.node.hot{background:#ffc247;box-shadow:0 0 13px #ffc247}.node.alert{background:#ff3445;box-shadow:0 0 16px #ff3445}
+.nlabel{position:absolute;z-index:3;border:1px solid var(--red);border-radius:5px;padding:5px 8px;background:#081b2b;color:#fff;font-size:11px}
+.map-legend{position:absolute;left:14px;top:14px;z-index:4;font-size:11px;line-height:2}.map-side{position:absolute;right:14px;top:14px;z-index:4;color:#9fb9c9;font-size:11px;line-height:2.1}.map-side b{display:block;color:#55d5ff;font-size:18px}
+.feeds{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:9px}.feed{border:1px solid #174f70;border-radius:8px;overflow:hidden;background:#06182a}.feed-img{height:115px;position:relative;overflow:hidden;background:
+ linear-gradient(90deg,#1a3342 0 10%,#7b8a8f 10% 12%,#d5d0bf 12% 14%,#536b76 14% 25%,#b8b6aa 25% 27%,#334e60 27% 42%,#d8d3c8 42% 44%,#425a68 44% 60%,#c9c3b5 60% 62%,#354c5b 62% 78%,#c9c4b9 78% 80%,#1d3444 80%);
+}.feed-img:after{content:"";position:absolute;left:0;right:0;bottom:20px;height:32px;background:repeating-linear-gradient(90deg,#202d35 0 55px,#111b22 56px 75px);transform:skewY(-2deg);opacity:.9}
+.train{position:absolute;right:10px;top:12px;width:58%;height:55px;border-radius:7px;background:linear-gradient(#b8b9b3,#6b7374);box-shadow:0 4px 10px #0009}.train:before{content:"";position:absolute;left:8px;right:8px;top:13px;height:17px;background:repeating-linear-gradient(90deg,#18364b 0 12px,#d7e2e6 13px 16px)}.person{position:absolute;bottom:31px;left:25%;width:9px;height:27px;background:#13202a;border-radius:5px;z-index:2}.person:before{content:"";position:absolute;width:11px;height:11px;border-radius:50%;background:#c79d7b;top:-8px;left:-1px}
+.live{position:absolute;right:6px;top:6px;background:#e52f3e;padding:3px 6px;border-radius:4px;font-size:9px;z-index:5}.feed-name{padding:8px;font-size:11px}.alerts{padding:8px}.alert{display:flex;gap:9px;padding:9px;border-bottom:1px solid #0b3854}.alert:last-child{border-bottom:0}.thumb{width:58px;height:55px;border-radius:5px;background:linear-gradient(145deg,#1e2c36,#080e14);flex:none;position:relative}.bag:after{content:"▰";font-size:30px;position:absolute;left:14px;top:9px;color:#17212a}.personthumb:after{content:"●";font-size:25px;position:absolute;left:17px;top:3px;color:#7e6759}.box:after{content:"▣";font-size:32px;position:absolute;left:13px;top:7px;color:#a58e62}.alert h4{margin:0;font-size:12px}.alert p{margin:4px 0;color:#91aabc;font-size:10px}.badge{font-size:9px;padding:3px 6px;border-radius:4px;background:#30151a;color:#ff6873}.badge.medium{background:#342812;color:#ffc247}
+.bottom-grid{display:grid;grid-template-columns:1.25fr .85fr 1.1fr;gap:12px;margin-top:12px}.chart{height:205px;padding:8px 12px 12px}.chart svg{width:100%;height:100%}.donut-area{height:205px;display:flex;align-items:center;justify-content:space-around;padding:10px}.donut{width:125px;height:125px;border-radius:50%;background:conic-gradient(#00df9a 0 82%,#ffc247 82% 90%,#ff3445 90% 94%,#158ecb 94%);position:relative}.donut:after{content:"1,248\A Total Devices";white-space:pre;text-align:center;position:absolute;inset:25px;border-radius:50%;background:#06192b;display:grid;place-items:center;font-weight:700;font-size:13px}.device-legend{font-size:11px;line-height:2.2;color:#a9c0cf}.device-legend b{color:#fff}.bars{height:205px;padding:18px 14px;display:flex;align-items:end;gap:17px}.bar-col{flex:1;text-align:center;color:#b4c8d6;font-size:10px}.bar{height:120px;background:linear-gradient(180deg,#37c8ff,#0864a5);border-radius:4px 4px 0 0;position:relative}.bar.red{background:linear-gradient(180deg,#ff4b58,#9f1d2a)}.bar.yellow{background:linear-gradient(180deg,#ffc247,#9a6917)}.bar.green{background:linear-gradient(180deg,#20dc9e,#168463)}.bar:after{content:attr(data-v);position:absolute;top:-19px;left:0;right:0;color:#fff;font-weight:700}
+footer{margin-top:14px;border-top:1px solid #0b4d70;padding:13px 15px;color:#7998ad;font-size:11px;letter-spacing:1.4px;display:flex;justify-content:space-between}
+.full-page{padding:15px}.feed-full-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.feed-large .feed-img{height:280px}.feed-large .feed-name{font-size:14px;padding:12px}.control-row{display:flex;gap:9px}.control{border:1px solid #09608a;background:#072641;border-radius:7px;padding:8px 12px;cursor:pointer}.control:hover{background:#0a5c8b}
+.toast{position:fixed;right:22px;bottom:22px;background:#06243b;border:1px solid #19bfff;border-radius:9px;padding:13px 18px;box-shadow:0 0 20px #00aaff33;display:none;z-index:50}.toast.show{display:block}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.content-grid,.bottom-grid{grid-template-columns:1fr}.sidebar{position:static;min-height:auto}.layout{grid-template-columns:1fr}.nav{display:inline-flex;width:auto}.sidebar{display:flex;flex-wrap:wrap;gap:2px}.side-bottom{display:none}.topbar{grid-template-columns:1fr;text-align:center;height:auto;gap:12px}.brand,.system{justify-self:center}.clock{text-align:center}.feed-full-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.feeds{grid-template-columns:1fr}.feed-large .feed-img{height:210px}.brand h1{font-size:24px}.title h2{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">✦</div>
+    <div><h1>RailSecure <span>AI</span></h1><p>Indian Railways</p><div class="tag">INTELLIGENCE &nbsp;|&nbsp; SAFETY &nbsp;|&nbsp; EVERY PLATFORM</div></div>
+  </div>
+  <div class="title"><h2 id="pageTitle">CONTROL ROOM DASHBOARD</h2><p>REAL-TIME MONITORING &nbsp;•&nbsp; THREAT DETECTION &nbsp;•&nbsp; NATIONWIDE SECURITY</p></div>
+  <div class="system"><div class="online"><span class="dot"></span><b>System Operational</b><small>All systems active</small></div><div class="clock"><div class="date" id="date"></div><strong id="time"></strong><small>IST</small></div></div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <button class="nav active" data-page="overview" onclick="showPage('overview',this)"><span class="ico">⌂</span>Overview</button>
+  <button class="nav" data-page="feeds" onclick="showPage('feeds',this)"><span class="ico">▣</span>Live Feeds</button>
+  <button class="nav" data-page="analytics" onclick="showPage('analytics',this)"><span class="ico">▥</span>AI Analytics</button>
+  <button class="nav" data-page="alerts" onclick="showPage('alerts',this)"><span class="ico">♟</span>Alerts <span class="alert-count">5</span></button>
+  <button class="nav" data-page="network" onclick="showPage('network',this)"><span class="ico">🚆</span>Railway Network</button>
+  <button class="nav" data-page="devices" onclick="showPage('devices',this)"><span class="ico">▣</span>Devices</button>
+  <button class="nav" data-page="reports" onclick="showPage('reports',this)"><span class="ico">▤</span>Reports</button>
+  <button class="nav" data-page="users" onclick="showPage('users',this)"><span class="ico">♙</span>User Management</button>
+  <button class="nav" data-page="settings" onclick="showPage('settings',this)"><span class="ico">⚙</span>Settings</button>
+  <div class="side-bottom">🇮🇳 &nbsp; A SAFER INDIA<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STRONGER RAILWAYS<br><br><b>SECURE RAILWAYS<br>BRIGHTER TOMORROW</b></div>
+</aside>
+
+<main class="main">
+
+<section id="overview" class="page active">
+  <div class="stats">
+    <div class="stat"><div class="label">🚆 Total Stations</div><div class="value">7,325 <span class="up">↑ +2%</span></div></div>
+    <div class="stat"><div class="label">▣ Active Devices</div><div class="value">1,248 <span class="up">↑ +5%</span></div></div>
+    <div class="stat"><div class="label">⚠ Threats Detected (Today)</div><div class="value">12 <span style="color:#ff4655;font-size:12px">↑ +33%</span></div></div>
+    <div class="stat"><div class="label">♢ Cases Resolved</div><div class="value">11 <span class="up">↗ 91.7%</span></div></div>
+    <div class="stat"><div class="label">◷ System Uptime</div><div class="value">99.8% <span class="up">Online</span></div></div>
+  </div>
+
+  <div class="content-grid">
+    <div class="panel">
+      <div class="panel-head"><h3>INDIAN RAILWAY NETWORK</h3><span style="color:#00e89b">● Live</span></div>
+      <div class="map-wrap"><div class="map">
+        <div class="map-legend">🔵 Normal<br>🟡 High Attention<br>🔴 Threat Detected</div>
+        <div class="map-side">Zones<b>18</b>Divisions<b>70</b>Major Stations<b>1,250+</b></div>
+        <div class="india"></div>
+        <span class="node alert" style="left:53%;top:27%"></span><span class="node" style="left:47%;top:35%"></span><span class="node hot" style="left:59%;top:42%"></span><span class="node" style="left:43%;top:47%"></span><span class="node alert" style="left:68%;top:52%"></span><span class="node" style="left:54%;top:57%"></span><span class="node hot" style="left:49%;top:65%"></span><span class="node alert" style="left:57%;top:76%"></span><span class="node" style="left:45%;top:72%"></span><span class="node" style="left:38%;top:58%"></span><span class="node" style="left:34%;top:68%"></span>
+        <div class="nlabel" style="left:51%;top:21%">New Delhi<br><b style="color:#ff5260">2 Alerts</b></div>
+        <div class="nlabel" style="left:23%;top:55%">Mumbai<br><b style="color:#ff5260">1 Alert</b></div>
+        <div class="nlabel" style="left:69%;top:48%">Kolkata<br><b style="color:#ff5260">1 Alert</b></div>
+        <div class="nlabel" style="left:51%;top:77%">Chennai<br><b style="color:#ff5260">1 Alert</b></div>
+        <button class="control" style="position:absolute;left:10px;bottom:10px;z-index:5" onclick="showPage('network')">＋<br>−</button>
+      </div></div>
+    </div>
+
+    <div class="panel"><div class="panel-head"><h3>LIVE CAMERA FEEDS</h3><span class="view" onclick="showPage('feeds')">View All →</span></div><div class="feeds">
+      <div class="feed" onclick="showPage('feeds')"><div class="feed-img"><div class="train"></div><div class="person"></div><span class="live">● LIVE</span></div><div class="feed-name">New Delhi - Platform 3</div></div>
+      <div class="feed" onclick="showPage('feeds')"><div class="feed-img"><div class="train"></div><div class="person" style="left:60%"></div><span class="live">● LIVE</span></div><div class="feed-name">Mumbai CST - Platform 1</div></div>
+      <div class="feed" onclick="showPage('feeds')"><div class="feed-img"><div class="train"></div><div class="person" style="left:45%"></div><span class="live">● LIVE</span></div><div class="feed-name">Howrah - Platform 5</div></div>
+      <div class="feed" onclick="showPage('feeds')"><div class="feed-img"><div class="train"></div><div class="person" style="left:68%"></div><span class="live">● LIVE</span></div><div class="feed-name">Chennai Central - Platform 2</div></div>
+    </div></div>
+
+    <div class="panel"><div class="panel-head"><h3>RECENT ALERTS</h3><span class="view" onclick="showPage('alerts')">View All →</span></div><div class="alerts">
+      <div class="alert"><div class="thumb bag"></div><div><h4>⚠ Suspicious Bag Detected</h4><p>New Delhi - Platform 3<br>18:26:10</p><span class="badge">High</span></div></div>
+      <div class="alert"><div class="thumb personthumb"></div><div><h4>⚠ Unauthorized Person</h4><p>Mumbai CST - Platform 1<br>18:25:43</p><span class="badge medium">Medium</span></div></div>
+      <div class="alert"><div class="thumb box"></div><div><h4>⚠ Suspected Narcotics</h4><p>Howrah - Platform 5<br>18:24:18</p><span class="badge">High</span></div></div>
+      <div class="alert"><div class="thumb personthumb"></div><div><h4>⚠ Loitering Detected</h4><p>Chennai Central - Platform 2<br>18:22:07</p><span class="badge medium">Medium</span></div></div>
+    </div></div>
+  </div>
+
+  <div class="bottom-grid">
+    <div class="panel"><div class="panel-head"><h3>THREAT DETECTION TRENDS</h3><span style="font-size:10px">🔴 Narcotics &nbsp; 🟡 Explosives &nbsp; 🔵 Unauthorized Access &nbsp; 🟢 Loitering</span></div><div class="chart">
+      <svg viewBox="0 0 620 210" preserveAspectRatio="none">
+        <g stroke="#123b55" stroke-width="1"><path d="M20 25H600M20 65H600M20 105H600M20 145H600M20 185H600"/><path d="M80 15V195M160 15V195M240 15V195M320 15V195M400 15V195M480 15V195M560 15V195"/></g>
+        <polyline fill="none" stroke="#ff4758" stroke-width="3" points="20,155 55,147 90,151 125,138 160,145 195,112 230,126 265,102 300,120 335,106 370,96 405,45 440,98 475,82 510,105 545,88 580,112 600,104"/>
+        <polyline fill="none" stroke="#ffc247" stroke-width="2.5" points="20,175 55,170 90,173 125,163 160,171 195,145 230,156 265,139 300,158 335,144 370,135 405,85 440,145 475,129 510,150 545,130 580,150 600,143"/>
+        <polyline fill="none" stroke="#39a9ff" stroke-width="2.5" points="20,188 55,180 90,183 125,174 160,179 195,155 230,165 265,151 300,171 335,157 370,149 405,118 440,162 475,146 510,168 545,148 580,168 600,160"/>
+        <polyline fill="none" stroke="#19d99a" stroke-width="2.5" points="20,195 55,188 90,191 125,184 160,190 195,173 230,180 265,166 300,181 335,169 370,164 405,145 440,177 475,162 510,180 545,164 580,181 600,176"/>
+      </svg>
+    </div></div>
+    <div class="panel"><div class="panel-head"><h3>DEVICE STATUS</h3></div><div class="donut-area"><div class="donut"></div><div class="device-legend"><b>🟢 1,102</b> &nbsp; Online<br><b>🟡 96</b> &nbsp; Warning<br><b>🔴 50</b> &nbsp; Offline</div></div></div>
+    <div class="panel"><div class="panel-head"><h3>ALERT CATEGORIES</h3></div><div class="bars">
+      <div class="bar-col"><div class="bar red" style="height:105px" data-v="25"></div>Narcotics</div>
+      <div class="bar-col"><div class="bar yellow" style="height:76px" data-v="18"></div>Explosives</div>
+      <div class="bar-col"><div class="bar" style="height:135px" data-v="32"></div>Unauthorized</div>
+      <div class="bar-col"><div class="bar green" style="height:60px" data-v="14"></div>Loitering</div>
+      <div class="bar-col"><div class="bar" style="height:34px" data-v="8"></div>Others</div>
+    </div></div>
+  </div>
+</section>
+
+<section id="feeds" class="page">
+ <div class="panel full-page">
+  <div class="panel-head"><div><h3 style="font-size:20px">LIVE CAMERA FEEDS</h3><span style="color:#8eabbf;font-size:11px">Real-time monitoring from railway platforms and stations</span></div><div class="control-row"><button class="control" onclick="showPage('overview')">← Overview</button><button class="control" onclick="notify('All camera feeds refreshed')">↻ Refresh</button></div></div>
+  <div class="feed-full-grid" style="padding:14px">
+   <div class="feed feed-large"><div class="feed-img"><div class="train"></div><div class="person"></div><div class="person" style="left:53%"></div><span class="live">● LIVE</span></div><div class="feed-name">New Delhi — Platform 3 <small style="float:right;color:#00e89b">AI MONITORING ACTIVE</small></div></div>
+   <div class="feed feed-large"><div class="feed-img"><div class="train"></div><div class="person" style="left:58%"></div><span class="live">● LIVE</span></div><div class="feed-name">Mumbai CST — Platform 1 <small style="float:right;color:#00e89b">AI MONITORING ACTIVE</small></div></div>
+   <div class="feed feed-large"><div class="feed-img"><div class="train"></div><div class="person" style="left:43%"></div><div class="person" style="left:70%"></div><span class="live">● LIVE</span></div><div class="feed-name">Howrah — Platform 5 <small style="float:right;color:#00e89b">AI MONITORING ACTIVE</small></div></div>
+   <div class="feed feed-large"><div class="feed-img"><div class="train"></div><div class="person" style="left:67%"></div><span class="live">● LIVE</span></div><div class="feed-name">Chennai Central — Platform 2 <small style="float:right;color:#00e89b">AI MONITORING ACTIVE</small></div></div>
+  </div>
+ </div>
+</section>
+
+<section id="analytics" class="page"><div class="panel full-page"><div class="panel-head"><h3>AI ANALYTICS</h3></div><div style="padding:25px"><h2>Threat Intelligence & AI Analytics</h2><p style="color:#9db4c5">YOLO-based visual analysis, anomaly scoring and threat classification are active across connected railway monitoring units.</p><div class="stats" style="margin-top:25px"><div class="stat"><div class="label">Detection Accuracy</div><div class="value">96.4%</div></div><div class="stat"><div class="label">Frames Analyzed</div><div class="value">18.7M</div></div><div class="stat"><div class="label">Anomalies Today</div><div class="value">43</div></div></div></div></div></section>
+
+<section id="alerts" class="page"><div class="panel full-page"><div class="panel-head"><h3>ALERT CENTER</h3><span class="badge">5 Active Alerts</span></div><div class="alerts" style="padding:16px"><div class="alert"><div class="thumb bag"></div><div><h4>Suspicious Bag Detected — HIGH</h4><p>New Delhi • Platform 3 • 18:26:10 • Confidence 92%</p></div></div><div class="alert"><div class="thumb personthumb"></div><div><h4>Unauthorized Person — MEDIUM</h4><p>Mumbai CST • Platform 1 • 18:25:43 • Confidence 87%</p></div></div><div class="alert"><div class="thumb box"></div><div><h4>Suspected Narcotics — HIGH</h4><p>Howrah • Platform 5 • 18:24:18 • Confidence 94%</p></div></div></div></div></section>
+
+<section id="network" class="page"><div class="panel full-page"><div class="panel-head"><h3>RAILWAY NETWORK</h3><span style="color:#00e89b">● 18 Zones Online</span></div><div class="map-wrap" style="height:650px"><div class="map"><div class="india" style="background:#123d56"></div><div class="map-side">Zones<b>18</b>Divisions<b>70</b>Major Stations<b>1,250+</b></div>
+<span class="node alert" style="left:53%;top:27%"></span><span class="node" style="left:47%;top:35%"></span><span class="node hot" style="left:59%;top:42%"></span><span class="node alert" style="left:68%;top:52%"></span><span class="node alert" style="left:57%;top:76%"></span><span class="node" style="left:38%;top:58%"></span><span class="node" style="left:45%;top:72%"></span></div></div></div></section>
+
+<section id="devices" class="page"><div class="panel full-page"><div class="panel-head"><h3>CONNECTED DEVICES</h3><span class="view">1,248 devices</span></div><div class="stats" style="padding:15px"><div class="stat"><div class="label">🦾 Quadruped Robots</div><div class="value">486</div></div><div class="stat"><div class="label">🖐 Handheld Units</div><div class="value">612</div></div><div class="stat"><div class="label">📷 Fixed Cameras</div><div class="value">150</div></div></div></div></section>
+
+<section id="reports" class="page"><div class="panel full-page"><div class="panel-head"><h3>REPORTS</h3><button class="control" onclick="notify('Report generated successfully')">Generate Report</button></div><div style="padding:20px;color:#a9c0cf">Daily Threat Summary<br><br>• Threats detected: <b style="color:white">12</b><br>• Cases resolved: <b style="color:white">11</b><br>• High priority: <b style="color:#ff5260">3</b><br>• System uptime: <b style="color:#00e89b">99.8%</b></div></div></section>
+
+<section id="users" class="page"><div class="panel full-page"><div class="panel-head"><h3>USER MANAGEMENT</h3></div><div style="padding:20px;color:#a9c0cf">Authorized RPF operators, supervisors and control-room administrators can be managed from this section.</div></div></section>
+
+<section id="settings" class="page"><div class="panel full-page"><div class="panel-head"><h3>SYSTEM SETTINGS</h3></div><div style="padding:20px;color:#a9c0cf"><button class="control" onclick="notify('All systems are operational')">Run System Check</button> <button class="control" onclick="notify('Settings saved')">Save Settings</button></div></div></section>
+
+</main></div>
+<footer><span>INTELLIGENCE &nbsp;|&nbsp; SAFETY &nbsp;|&nbsp; EVERY PLATFORM</span><span>INDIAN RAILWAYS &nbsp;|&nbsp; A SAFER INDIA 🇮🇳</span></footer>
+</div>
+<div id="toast" class="toast"></div>
+
+<script>
+const titles={overview:"CONTROL ROOM DASHBOARD",feeds:"LIVE CAMERA FEEDS",analytics:"AI ANALYTICS",alerts:"ALERT CENTER",network:"RAILWAY NETWORK",devices:"CONNECTED DEVICES",reports:"REPORTS",users:"USER MANAGEMENT",settings:"SYSTEM SETTINGS"};
+function showPage(id,btn){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const page=document.getElementById(id); if(page) page.classList.add("active");
+ document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
+ const nav=btn || document.querySelector('.nav[data-page="'+id+'"]'); if(nav) nav.classList.add("active");
+ document.getElementById("pageTitle").textContent=titles[id]||"CONTROL ROOM DASHBOARD";
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function notify(msg){const t=document.getElementById("toast");t.textContent="✓ "+msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+function clock(){
+ const d=new Date(), opts={day:"2-digit",month:"short",year:"numeric"};
+ document.getElementById("date").textContent=d.toLocaleDateString("en-GB",opts);
+ document.getElementById("time").textContent=d.toLocaleTimeString("en-GB");
+}
+clock();setInterval(clock,1000);
+</script>
+</body>
+</html>

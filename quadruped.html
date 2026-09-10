@@ -1,0 +1,3477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RailSecure AI | Quadruped Robot</title>
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(0, 132, 255, 0.16), transparent 38%),
+        linear-gradient(135deg, #020b16, #031b30 50%, #020914);
+    color: #eaf7ff;
+    min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    height: 98px;
+    border-bottom: 1px solid #16486d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 26px;
+    background: rgba(2, 15, 29, 0.92);
+}
+
+.back-btn {
+    border: 1px solid #0878c9;
+    background: rgba(0, 87, 150, 0.12);
+    color: #8edcff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.back-btn:hover {
+    background: rgba(0, 130, 255, 0.2);
+    box-shadow: 0 0 20px rgba(0, 174, 255, 0.35);
+}
+
+.title-area {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.robot-icon {
+    font-size: 43px;
+    filter: drop-shadow(0 0 10px #00bfff);
+}
+
+.title-area h1 {
+    font-size: 31px;
+    letter-spacing: 1px;
+}
+
+.title-area p {
+    color: #79cfff;
+    font-size: 16px;
+    margin-top: 5px;
+    letter-spacing: 1px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.brand-text h2 {
+    color: #20caff;
+    font-size: 21px;
+}
+
+.brand-text p {
+    color: #83aeca;
+    margin-top: 4px;
+}
+
+.status {
+    border: 1px solid #07598c;
+    padding: 13px 23px;
+    border-radius: 8px;
+    background: rgba(0, 80, 140, 0.13);
+    font-size: 16px;
+}
+
+.status-dot {
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    background: #00ee9a;
+    border-radius: 50%;
+    margin-right: 9px;
+    box-shadow: 0 0 12px #00ee9a;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+    display: grid;
+    grid-template-columns:
+        repeat(5, 1fr) 230px;
+    gap: 16px;
+    padding: 18px 26px;
+}
+
+.nav-item {
+    height: 68px;
+    border: 1px solid #124e78;
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #071f35,
+            #05172a
+        );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    color: #d5edff;
+    font-size: 16px;
+
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background:
+        linear-gradient(
+            145deg,
+            #0874d8,
+            #0750a0
+        );
+
+    border-color: #16baff;
+
+    box-shadow:
+        0 0 22px
+        rgba(0, 150, 255, 0.35);
+}
+
+.nav-icon {
+    font-size: 25px;
+    color: #5bd6ff;
+}
+
+/* =========================
+   CLOCK
+========================= */
+
+.clock {
+    border: 1px solid #16466b;
+    border-radius: 9px;
+    background: #071b30;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.clock-date {
+    color: #c5def0;
+    font-size: 14px;
+}
+
+.clock-time {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+/* =========================
+   MAIN DASHBOARD
+========================= */
+
+.dashboard {
+    display: grid;
+
+    grid-template-columns:
+        320px
+        minmax(450px, 1fr)
+        390px;
+
+    gap: 18px;
+
+    padding: 6px 20px 18px;
+}
+
+.left-column,
+.middle-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    border: 1px solid #12527e;
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(5, 29, 49, 0.94),
+            rgba(2, 17, 31, 0.94)
+        );
+
+    box-shadow:
+        inset 0 0 30px
+        rgba(0, 113, 180, 0.05);
+
+    overflow: hidden;
+}
+
+.card-title {
+    color: #30c7ff;
+    font-size: 18px;
+    font-weight: bold;
+
+    padding: 16px 14px;
+
+    border-bottom:
+        1px solid #164769;
+
+    letter-spacing: 0.5px;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+/* =========================
+   ROBOT STATUS
+========================= */
+
+.robot-status {
+    min-height: 460px;
+}
+
+.active-label {
+    color: #74e6d0;
+    float: right;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.active-label span {
+    display: inline-block;
+
+    width: 13px;
+    height: 13px;
+
+    background: #00ee9a;
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 10px #00ee9a;
+
+    margin-right: 7px;
+}
+
+/* Robot visual */
+
+.robot-image {
+    height: 220px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0, 145, 255, 0.16),
+            transparent 65%
+        );
+}
+
+.robot-visual {
+    font-size: 125px;
+
+    filter:
+        drop-shadow(
+            0 0 25px
+            rgba(0, 180, 255, 0.45)
+        );
+}
+
+/* =========================
+   ROBOT STATS
+========================= */
+
+.stat {
+    margin: 14px 0;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+
+    margin-bottom: 7px;
+}
+
+.stat-label {
+    color: #e3f2fc;
+}
+
+.stat-value {
+    font-weight: bold;
+}
+
+.progress {
+    height: 6px;
+
+    background: #102f47;
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 78%;
+    height: 100%;
+
+    background: #30c8ff;
+
+    box-shadow:
+        0 0 10px #30c8ff;
+}
+
+/* =========================
+   PATROL CONTROLS
+========================= */
+
+.control-btn {
+    width: 100%;
+
+    padding: 13px;
+
+    margin-bottom: 9px;
+
+    border-radius: 7px;
+
+    border: 1px solid #15618e;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0a3152,
+            #061d34
+        );
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.control-btn:hover {
+    border-color: #32caff;
+
+    background: #0a3e66;
+
+    box-shadow:
+        0 0 12px
+        rgba(0, 190, 255, 0.2);
+}
+
+.control-btn:active {
+    transform: scale(0.98);
+}
+
+.control-btn.primary {
+    background:
+        linear-gradient(
+            90deg,
+            #008ce8,
+            #0759bc
+        );
+
+    border-color: #18baff;
+}
+
+.control-btn.danger {
+    background:
+        linear-gradient(
+            90deg,
+            #e52b32,
+            #a80d18
+        );
+
+    border-color: #ff4249;
+}
+
+/* =========================
+   STATUS MESSAGE
+========================= */
+
+.action-status {
+    display: none;
+
+    margin-top: 5px;
+
+    padding: 11px;
+
+    border-radius: 7px;
+
+    text-align: center;
+
+    border: 1px solid #0878a8;
+
+    background: rgba(0, 110, 170, 0.15);
+
+    color: #63d8ff;
+
+    font-size: 13px;
+}
+
+.action-status.show {
+    display: block;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 1100px) {
+
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .middle-column {
+        grid-column: span 2;
+        grid-row: 1;
+    }
+
+    .navbar {
+        grid-template-columns:
+            repeat(3, 1fr);
+    }
+
+    .clock {
+        display: none;
+    }
+}
+
+@media(max-width: 700px) {
+
+    .header {
+        height: auto;
+        padding: 15px;
+
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .title-area h1 {
+        font-size: 22px;
+    }
+
+    .brand {
+        display: none;
+    }
+
+    .navbar {
+        grid-template-columns: 1fr 1fr;
+        padding: 12px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .middle-column {
+        grid-column: auto;
+        grid-row: auto;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+    <button
+        class="back-btn"
+        onclick="goHome()">
+
+        ← &nbsp; Back to Home
+
+    </button>
+
+
+    <div class="title-area">
+
+        <div class="robot-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <h1>
+                QUADRUPED ROBOT
+            </h1>
+
+            <p>
+                AUTONOMOUS RAILWAY PATROL UNIT
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="brand">
+
+        <div class="brand-text">
+
+            <h2>
+                RailSecure AI
+            </h2>
+
+            <p>
+                Indian Railways
+            </p>
+
+        </div>
+
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            System Online
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="dashboard">
+
+
+    <!-- =====================
+         LEFT COLUMN
+    ====================== -->
+
+    <section class="left-column">
+
+
+        <!-- ROBOT STATUS -->
+
+        <div class="card robot-status">
+
+            <div class="card-title">
+
+                ROBOT STATUS
+
+                <span class="active-label">
+
+                    <span></span>
+
+                    ACTIVE
+
+                </span>
+
+            </div>
+
+
+            <div class="card-content">
+
+
+                <div class="robot-image">
+
+                    <div class="robot-visual">
+                        🐕‍🦺
+                    </div>
+
+                </div>
+
+
+                <!-- BATTERY -->
+
+                <div class="stat">
+
+                    <div class="stat-row">
+
+                        <span class="stat-label">
+                            🔋 Battery
+                        </span>
+
+                        <span
+                            class="stat-value"
+                            id="batteryValue">
+
+                            78%
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-fill"
+                            id="batteryBar">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONNECTION -->
+
+                <div class="stat">
+
+                    <div class="stat-row">
+
+                        <span>
+                            📶 Connection
+                        </span>
+
+                        <b id="connection">
+                            Strong
+                        </b>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SPEED -->
+
+                <div class="stat">
+
+                    <div class="stat-row">
+
+                        <span>
+                            ◉ Speed
+                        </span>
+
+                        <b id="speed">
+                            1.2 m/s
+                        </b>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TEMPERATURE -->
+
+                <div class="stat">
+
+                    <div class="stat-row">
+
+                        <span>
+                            🌡 Temperature
+                        </span>
+
+                        <b id="temperature">
+                            42°C
+                        </b>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PATROL CONTROLS -->
+
+        <div class="card">
+
+            <div class="card-title">
+                PATROL CONTROLS
+            </div>
+
+
+            <div class="card-content">
+
+
+                <button
+                    class="control-btn primary"
+                    onclick="startPatrol()">
+
+                    ▶ &nbsp;&nbsp;
+                    Start Patrol
+
+                </button>
+
+
+                <button
+                    class="control-btn"
+                    onclick="pausePatrol()">
+
+                    ❚❚ &nbsp;&nbsp;
+                    Pause
+
+                </button>
+
+
+                <button
+                    class="control-btn"
+                    onclick="returnBase()">
+
+                    🏠 &nbsp;&nbsp;
+                    Return to Base
+
+                </button>
+
+
+                <button
+                    class="control-btn danger"
+                    onclick="emergencyStop()">
+
+                    ■ &nbsp;&nbsp;
+                    Emergency Stop
+
+                </button>
+
+
+                <!-- NO ALERT POPUP -->
+
+                <div
+                    class="action-status"
+                    id="actionStatus">
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section>
+<!-- =========================
+         MIDDLE COLUMN
+    ========================== -->
+
+    <section class="middle-column">
+
+
+        <!-- =====================
+             LIVE CAMERA FEED
+        ====================== -->
+
+        <div class="card live-feed">
+
+            <div class="feed-image">
+
+                <!-- Dark cinematic overlay -->
+                <div class="feed-overlay"></div>
+
+
+                <!-- TOP LEFT -->
+
+                <div class="feed-top">
+
+                    <span class="red-dot"></span>
+
+                    Live Feed - Platform 3
+
+                </div>
+
+
+                <!-- TOP RIGHT -->
+
+                <div class="feed-info">
+
+                    FPS: <span id="fps">30</span><br>
+
+                    AI Model: YOLOv8<br>
+
+                    <span id="feedDate">
+                        2026-09-10 16:26:17
+                    </span>
+
+                </div>
+
+
+                <!-- AI DETECTION BOXES -->
+
+                <div class="detection-box person-box">
+
+                    <span class="box-label">
+                        Person
+                    </span>
+
+                </div>
+
+
+                <div class="detection-box person-box second-person">
+
+                    <span class="box-label">
+                        Person
+                    </span>
+
+                </div>
+
+
+                <div class="detection-box person-box third-person">
+
+                    <span class="box-label">
+                        Person
+                    </span>
+
+                </div>
+
+
+                <div class="detection-box bag-box">
+
+                    <span class="box-label bag-label">
+                        Bag
+                    </span>
+
+                </div>
+
+
+                <!-- SCANNING STATUS -->
+
+                <div class="scan" id="scanStatus">
+
+                    Scanning for threats...
+
+                </div>
+
+
+                <!-- FULLSCREEN -->
+
+                <button
+                    class="fullscreen"
+                    onclick="fullscreenFeed()">
+
+                    ⛶
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             SENSOR STREAMS
+        ========================== -->
+
+        <div class="card sensor-card">
+
+            <div class="card-title">
+
+                SENSOR STREAMS
+
+            </div>
+
+
+            <div class="card-content">
+
+                <div class="sensor-grid">
+
+
+                    <!-- CAMERA -->
+
+                    <div class="sensor">
+
+                        <h3>
+                            Camera
+                        </h3>
+
+
+                        <div class="sensor-visual camera-visual">
+
+                            <div class="camera-scene">
+
+                                <div class="rail-line"></div>
+
+                                <div class="mini-person p-one">
+                                    ●
+                                </div>
+
+                                <div class="mini-person p-two">
+                                    ●
+                                </div>
+
+                                <div class="mini-person p-three">
+                                    ●
+                                </div>
+
+                                <div class="mini-bag">
+                                    ▰
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="sensor-status">
+                            Active
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- THERMAL -->
+
+                    <div class="sensor">
+
+                        <h3>
+                            Thermal
+                        </h3>
+
+
+                        <div class="sensor-visual thermal-visual">
+
+                            <div class="thermal-person">
+                                ◉
+                            </div>
+
+                            <div class="thermal-body">
+                                ▰
+                            </div>
+
+                        </div>
+
+
+                        <div class="sensor-status">
+                            Active
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LIDAR -->
+
+                    <div class="sensor">
+
+                        <h3>
+                            Lidar
+                        </h3>
+
+
+                        <div class="sensor-visual lidar-visual">
+
+                            <div class="lidar-center">
+                                ◉
+                            </div>
+
+                            <div class="lidar-ring ring-one"></div>
+
+                            <div class="lidar-ring ring-two"></div>
+
+                            <div class="lidar-ring ring-three"></div>
+
+                            <div class="lidar-point point-one"></div>
+                            <div class="lidar-point point-two"></div>
+                            <div class="lidar-point point-three"></div>
+                            <div class="lidar-point point-four"></div>
+
+                        </div>
+
+
+                        <div class="sensor-status">
+                            Active
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- IMU -->
+
+                    <div class="sensor">
+
+                        <h3>
+                            IMU
+                        </h3>
+
+
+                        <div class="sensor-visual imu-visual">
+
+                            <div class="wave">
+
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="sensor-status">
+                            Active
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+<!-- =========================
+     EXTRA STYLES FOR PART 2
+========================= -->
+
+<style>
+
+/* =================================
+   LIVE FEED
+================================= */
+
+.live-feed {
+
+    height: 475px;
+
+    position: relative;
+
+}
+
+.feed-image {
+
+    height: 100%;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+
+        linear-gradient(
+            rgba(0,0,0,0.08),
+            rgba(0,0,0,0.18)
+        ),
+
+        url("https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&w=1400&q=90")
+
+        center / cover;
+
+}
+
+
+/* Dark cinematic layer */
+
+.feed-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.48),
+            transparent 28%,
+            transparent 68%,
+            rgba(0,0,0,0.55)
+        );
+
+}
+
+
+/* =================================
+   FEED TOP LEFT
+================================= */
+
+.feed-top {
+
+    position: absolute;
+
+    top: 17px;
+
+    left: 18px;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    z-index: 5;
+
+}
+
+
+.red-dot {
+
+    display: inline-block;
+
+    width: 15px;
+
+    height: 15px;
+
+    background: #ff3340;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 12px #ff3340;
+
+    margin-right: 8px;
+
+    animation: liveBlink 1.2s infinite;
+
+}
+
+
+@keyframes liveBlink {
+
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.35;
+    }
+
+}
+
+
+/* =================================
+   FEED INFORMATION
+================================= */
+
+.feed-info {
+
+    position: absolute;
+
+    top: 17px;
+
+    right: 17px;
+
+    text-align: right;
+
+    line-height: 24px;
+
+    font-size: 15px;
+
+    z-index: 5;
+
+}
+
+
+/* =================================
+   DETECTION BOXES
+================================= */
+
+.detection-box {
+
+    position: absolute;
+
+    border: 2px solid;
+
+    z-index: 4;
+
+}
+
+
+.detection-box::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+
+    height: 8px;
+
+    top: -5px;
+
+    left: -5px;
+
+    border-left: 2px solid;
+    border-top: 2px solid;
+
+}
+
+
+.person-box {
+
+    border-color: #ff3d3d;
+
+    width: 78px;
+
+    height: 175px;
+
+    top: 142px;
+
+    left: 49%;
+
+}
+
+
+.second-person {
+
+    width: 68px;
+
+    height: 145px;
+
+    top: 160px;
+
+    left: 61%;
+
+}
+
+
+.third-person {
+
+    width: 58px;
+
+    height: 125px;
+
+    top: 170px;
+
+    left: 73%;
+
+}
+
+
+/* Labels */
+
+.box-label {
+
+    position: absolute;
+
+    top: -24px;
+
+    left: -2px;
+
+    padding: 3px 7px;
+
+    background: #e93636;
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+}
+
+
+.bag-box {
+
+    width: 82px;
+
+    height: 92px;
+
+    border-color: #00ed9a;
+
+    top: 275px;
+
+    left: 72%;
+
+}
+
+
+.bag-label {
+
+    background: #00a86b;
+
+}
+
+
+/* =================================
+   SCAN STATUS
+================================= */
+
+.scan {
+
+    position: absolute;
+
+    bottom: 18px;
+
+    left: 15px;
+
+    background:
+        rgba(3, 20, 35, 0.88);
+
+    padding: 12px 15px;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+    z-index: 6;
+
+    border: 1px solid
+        rgba(55, 150, 200, .25);
+
+}
+
+
+.scan::before {
+
+    content: "";
+
+    display: inline-block;
+
+    width: 8px;
+
+    height: 8px;
+
+    background: #00ef9a;
+
+    border-radius: 50%;
+
+    margin-right: 8px;
+
+    box-shadow:
+        0 0 8px #00ef9a;
+
+    animation:
+        scanBlink 1s infinite;
+
+}
+
+
+@keyframes scanBlink {
+
+    50% {
+        opacity: .2;
+    }
+
+}
+
+
+/* =================================
+   FULLSCREEN BUTTON
+================================= */
+
+.fullscreen {
+
+    position: absolute;
+
+    bottom: 17px;
+
+    right: 17px;
+
+    background:
+        rgba(0, 20, 35, .85);
+
+    border: 1px solid #44708c;
+
+    color: white;
+
+    border-radius: 7px;
+
+    padding: 11px 13px;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    z-index: 7;
+
+}
+
+
+.fullscreen:hover {
+
+    background: #0b4168;
+
+    border-color: #27caff;
+
+}
+
+
+/* =================================
+   SENSOR CARD
+================================= */
+
+.sensor-card {
+
+    min-height: 250px;
+
+}
+
+
+.sensor-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+}
+
+
+.sensor {
+
+    border: 1px solid #16577e;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+    background:
+        #05192c;
+
+    transition: .25s;
+
+}
+
+
+.sensor:hover {
+
+    border-color: #28caff;
+
+    box-shadow:
+        0 0 15px
+        rgba(0, 180, 255, .18);
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.sensor h3 {
+
+    font-size: 14px;
+
+    padding: 10px;
+
+    color: #e9f7ff;
+
+}
+
+
+/* =================================
+   SENSOR VISUAL
+================================= */
+
+.sensor-visual {
+
+    height: 110px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0b3048,
+            #020e1d
+        );
+
+}
+
+
+/* =================================
+   CAMERA
+================================= */
+
+.camera-scene {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            165deg,
+            transparent 45%,
+            rgba(0, 170, 255, .25) 46%,
+            transparent 47%
+        );
+
+}
+
+
+.rail-line {
+
+    position: absolute;
+
+    width: 150%;
+
+    height: 2px;
+
+    background: #2688b8;
+
+    bottom: 25px;
+
+    left: -20px;
+
+    transform:
+        rotate(-5deg);
+
+}
+
+
+.mini-person {
+
+    position: absolute;
+
+    color: #8bdfff;
+
+    font-size: 22px;
+
+}
+
+
+.p-one {
+    left: 25px;
+    top: 42px;
+}
+
+
+.p-two {
+    left: 68px;
+    top: 31px;
+}
+
+
+.p-three {
+    left: 110px;
+    top: 49px;
+}
+
+
+.mini-bag {
+
+    position: absolute;
+
+    right: 22px;
+
+    bottom: 22px;
+
+    color: #00ef9a;
+
+    font-size: 28px;
+
+}
+
+
+/* =================================
+   THERMAL
+================================= */
+
+.thermal-visual {
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            #9c4b27,
+            #3c1831 30%,
+            #071d2c 70%
+        );
+
+}
+
+
+.thermal-person {
+
+    position: absolute;
+
+    left: 52px;
+
+    top: 17px;
+
+    font-size: 35px;
+
+    color: #ffcb54;
+
+    text-shadow:
+        0 0 15px #ff6b21;
+
+}
+
+
+.thermal-body {
+
+    position: absolute;
+
+    left: 54px;
+
+    top: 57px;
+
+    font-size: 45px;
+
+    color: #ff7936;
+
+    text-shadow:
+        0 0 20px #ff391b;
+
+}
+
+
+/* =================================
+   LIDAR
+================================= */
+
+.lidar-visual {
+
+    background:
+        radial-gradient(
+            circle,
+            #12608c,
+            #041522 68%
+        );
+
+}
+
+
+.lidar-center {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: #00ef9a;
+
+    font-size: 23px;
+
+    z-index: 3;
+
+}
+
+
+.lidar-ring {
+
+    position: absolute;
+
+    border: 1px solid
+        rgba(0, 239, 154, .35);
+
+    border-radius: 50%;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+}
+
+
+.ring-one {
+    width: 35px;
+    height: 35px;
+}
+
+
+.ring-two {
+    width: 70px;
+    height: 70px;
+}
+
+
+.ring-three {
+    width: 105px;
+    height: 105px;
+}
+
+
+.lidar-point {
+
+    position: absolute;
+
+    width: 5px;
+
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #00ef9a;
+
+    box-shadow:
+        0 0 8px #00ef9a;
+
+}
+
+
+.point-one {
+    left: 30px;
+    top: 28px;
+}
+
+
+.point-two {
+    right: 35px;
+    top: 47px;
+}
+
+
+.point-three {
+    left: 80px;
+    bottom: 15px;
+}
+
+
+.point-four {
+    right: 70px;
+    bottom: 30px;
+}
+
+
+/* =================================
+   IMU
+================================= */
+
+.imu-visual {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.wave {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    height: 80px;
+
+}
+
+
+.wave span {
+
+    width: 3px;
+
+    background: #22c8ff;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 0 8px #22c8ff;
+
+    animation:
+        waveMotion 1s infinite
+        ease-in-out alternate;
+
+}
+
+
+.wave span:nth-child(1) {
+    height: 20px;
+}
+
+.wave span:nth-child(2) {
+    height: 35px;
+}
+
+.wave span:nth-child(3) {
+    height: 55px;
+}
+
+.wave span:nth-child(4) {
+    height: 30px;
+}
+
+.wave span:nth-child(5) {
+    height: 70px;
+}
+
+.wave span:nth-child(6) {
+    height: 45px;
+}
+
+.wave span:nth-child(7) {
+    height: 25px;
+}
+
+.wave span:nth-child(8) {
+    height: 65px;
+}
+
+.wave span:nth-child(9) {
+    height: 40px;
+}
+
+.wave span:nth-child(10) {
+    height: 55px;
+}
+
+.wave span:nth-child(11) {
+    height: 28px;
+}
+
+
+@keyframes waveMotion {
+
+    from {
+        transform: scaleY(.65);
+    }
+
+    to {
+        transform: scaleY(1.15);
+    }
+
+}
+
+
+/* =================================
+   SENSOR STATUS
+================================= */
+
+.sensor-status {
+
+    padding: 9px;
+
+    color: #00ef9a;
+
+    font-size: 13px;
+
+}
+
+
+.sensor-status::before {
+
+    content: "";
+
+    display: inline-block;
+
+    width: 10px;
+
+    height: 10px;
+
+    background: #00ef9a;
+
+    border-radius: 50%;
+
+    margin-right: 7px;
+
+    box-shadow:
+        0 0 7px #00ef9a;
+
+}
+
+</style>
+
+
+<!-- =========================
+     RIGHT COLUMN
+========================= -->
+
+<section class="right-column">
+
+
+    <!-- =====================
+         DETECTION PANEL
+    ====================== -->
+
+    <div class="card detection-card">
+
+        <div class="card-title">
+
+            DETECTION PANEL
+
+            <span class="badge" id="alertCount">
+                2
+            </span>
+
+        </div>
+
+
+        <div class="card-content">
+
+
+            <!-- DETECTION 1 -->
+
+            <div class="detection danger">
+
+                <div class="detection-img bag">
+                </div>
+
+
+                <div class="detection-info">
+
+                    <h3>
+                        ⚠ Suspicious Bag
+                    </h3>
+
+                    <p>
+                        18:26:10
+                    </p>
+
+                    <p>
+                        Platform 3
+                    </p>
+
+                    <p class="confidence-danger">
+                        Confidence: 92%
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DETECTION 2 -->
+
+            <div class="detection warning">
+
+                <div class="detection-img person">
+                </div>
+
+
+                <div class="detection-info">
+
+                    <h3>
+                        ⚠ Person (Loitering)
+                    </h3>
+
+                    <p>
+                        18:25:43
+                    </p>
+
+                    <p>
+                        Platform 3
+                    </p>
+
+                    <p class="confidence-warning">
+                        Confidence: 87%
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- VIEW ALL -->
+
+            <button
+                class="view-btn"
+                onclick="viewDetections()">
+
+                View All Detections →
+
+            </button>
+
+
+            <!-- INLINE RESULT -->
+
+            <div
+                class="result-message"
+                id="detectionMessage">
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================
+         PATROL MAP
+    ====================== -->
+
+    <div class="card map-card">
+
+        <div class="card-title">
+            PATROL MAP
+        </div>
+
+
+        <div class="map">
+
+            <!-- Railway Platforms -->
+
+            <div class="station p1">
+                P1
+            </div>
+
+            <div class="station p2">
+                P2
+            </div>
+
+            <div class="station p3">
+                P3
+            </div>
+
+            <div class="station p4">
+                P4
+            </div>
+
+            <div class="station p5">
+                P5
+            </div>
+
+
+            <!-- Patrol Route -->
+
+            <svg
+                class="patrol-route"
+                viewBox="0 0 400 285"
+                preserveAspectRatio="none">
+
+                <polyline
+                    points="70,40 55,95 90,150 70,210 105,260"
+                    fill="none"
+                    stroke="#00ef9a"
+                    stroke-width="3"
+                    stroke-dasharray="7 6"
+                />
+
+            </svg>
+
+
+            <!-- Robot -->
+
+            <div
+                class="robot-marker"
+                id="robotMarker">
+
+                🤖
+
+            </div>
+
+
+            <!-- Detection Marker -->
+
+            <div
+                class="map-alert"
+                id="mapAlert">
+
+                !
+
+            </div>
+
+
+            <!-- North -->
+
+            <div class="north">
+                N
+                <div>▲</div>
+            </div>
+
+
+            <!-- Legend -->
+
+            <div class="legend">
+
+                <div>
+                    <span class="blue">●</span>
+                    Robot
+                </div>
+
+                <div>
+                    <span class="green">◆</span>
+                    Patrol Path
+                </div>
+
+                <div>
+                    <span class="red">●</span>
+                    Detection
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+    <span>
+        INTELLIGENCE
+        &nbsp; | &nbsp;
+        SAFETY
+        &nbsp; | &nbsp;
+        EVERY PLATFORM
+    </span>
+
+
+    <span>
+        INDIAN RAILWAYS
+        &nbsp; | &nbsp;
+        A SAFER INDIA
+        🇮🇳
+    </span>
+
+</footer>
+
+
+
+<!-- =========================
+     PART 3 STYLES
+========================= -->
+
+<style>
+
+/* =========================
+   DETECTION PANEL
+========================= */
+
+.detection-card {
+    min-height: 380px;
+}
+
+.badge {
+    float: right;
+
+    background: #ff303b;
+
+    color: white;
+
+    padding: 4px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    box-shadow:
+        0 0 10px
+        rgba(255, 48, 59, .4);
+}
+
+
+/* Detection item */
+
+.detection {
+
+    display: flex;
+
+    gap: 12px;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    margin-bottom: 10px;
+
+    background:
+        rgba(15, 36, 56, .8);
+
+}
+
+
+.detection.danger {
+
+    border: 1px solid #6e2a46;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(100, 20, 40, .28),
+            rgba(10, 30, 48, .7)
+        );
+
+}
+
+
+.detection.warning {
+
+    border: 1px solid #7d6220;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(100, 70, 15, .22),
+            rgba(10, 30, 48, .7)
+        );
+
+}
+
+
+/* Detection image */
+
+.detection-img {
+
+    width: 105px;
+
+    height: 92px;
+
+    flex-shrink: 0;
+
+    border-radius: 7px;
+
+    background-size: cover;
+
+    background-position: center;
+
+}
+
+
+/* Suspicious bag */
+
+.bag {
+
+    background-image:
+
+        url(
+        "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=400&q=85"
+        );
+
+}
+
+
+/* Person */
+
+.person {
+
+    background-image:
+
+        url(
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=85"
+        );
+
+}
+
+
+.detection-info h3 {
+
+    font-size: 16px;
+
+    margin-bottom: 12px;
+
+}
+
+
+.detection-info p {
+
+    color: #bdd4e5;
+
+    margin: 5px 0;
+
+    font-size: 14px;
+
+}
+
+
+.confidence-danger {
+
+    color: #ff3b43 !important;
+
+    font-weight: bold;
+
+}
+
+
+.confidence-warning {
+
+    color: #ffb21c !important;
+
+    font-weight: bold;
+
+}
+
+
+/* View button */
+
+.view-btn {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    border: 1px solid #14618e;
+
+    background:
+        linear-gradient(
+            90deg,
+            #092a47,
+            #0a3555
+        );
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    transition: .25s;
+
+}
+
+
+.view-btn:hover {
+
+    border-color: #20caff;
+
+    box-shadow:
+        0 0 15px
+        rgba(0, 180, 255, .2);
+
+}
+
+
+/* Inline message
+   NO POPUP */
+
+.result-message {
+
+    display: none;
+
+    margin-top: 10px;
+
+    padding: 10px;
+
+    border-radius: 7px;
+
+    background:
+        rgba(0, 130, 190, .13);
+
+    border:
+        1px solid #12658e;
+
+    color: #65d9ff;
+
+    font-size: 13px;
+
+    text-align: center;
+
+}
+
+
+.result-message.show {
+
+    display: block;
+
+}
+
+
+/* =========================
+   PATROL MAP
+========================= */
+
+.map-card {
+
+    height: 350px;
+
+}
+
+
+.map {
+
+    height: 285px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent 48%,
+            rgba(22,130,200,.25) 49%,
+            transparent 50%
+        ),
+
+        linear-gradient(
+            0deg,
+            transparent 48%,
+            rgba(22,130,200,.25) 49%,
+            transparent 50%
+        ),
+
+        #031426;
+
+    background-size: 55px 55px;
+
+}
+
+
+/* Railway lines */
+
+.map::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 110%;
+
+    height: 2px;
+
+    background:
+        rgba(20,120,180,.4);
+
+    left: -5%;
+
+    top: 46%;
+
+    transform:
+        rotate(-8deg);
+
+}
+
+
+.map::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 2px;
+
+    height: 110%;
+
+    background:
+        rgba(20,120,180,.4);
+
+    left: 50%;
+
+    top: -5%;
+
+    transform:
+        rotate(20deg);
+
+}
+
+
+/* =========================
+   PLATFORM LABELS
+========================= */
+
+.station {
+
+    position: absolute;
+
+    width: 90px;
+
+    text-align: center;
+
+    padding: 7px;
+
+    border: 1px solid #1680c7;
+
+    border-radius: 6px;
+
+    background:
+        rgba(2,35,61,.9);
+
+    color: #d7efff;
+
+    font-size: 13px;
+
+    z-index: 2;
+
+}
+
+
+.p1 {
+    top: 20px;
+    left: 90px;
+}
+
+
+.p2 {
+    top: 75px;
+    left: 65px;
+}
+
+
+.p3 {
+
+    top: 135px;
+
+    left: 85px;
+
+    border-color: #00ef9a;
+
+    color: #00ef9a;
+
+    box-shadow:
+        0 0 12px
+        rgba(0,239,154,.25);
+
+}
+
+
+.p4 {
+    top: 195px;
+    left: 80px;
+}
+
+
+.p5 {
+    top: 250px;
+    left: 100px;
+}
+
+
+/* =========================
+   PATROL ROUTE
+========================= */
+
+.patrol-route {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+}
+
+
+.patrol-route polyline {
+
+    filter:
+        drop-shadow(
+            0 0 5px #00ef9a
+        );
+
+}
+
+
+/* =========================
+   ROBOT MAP MARKER
+========================= */
+
+.robot-marker {
+
+    position: absolute;
+
+    top: 127px;
+
+    left: 245px;
+
+    font-size: 28px;
+
+    z-index: 5;
+
+    filter:
+        drop-shadow(
+            0 0 8px #00c8ff
+        );
+
+    animation:
+        robotMove 3s
+        infinite alternate
+        ease-in-out;
+
+}
+
+
+@keyframes robotMove {
+
+    from {
+        transform:
+            translateX(-18px);
+    }
+
+    to {
+        transform:
+            translateX(25px);
+    }
+
+}
+
+
+/* =========================
+   MAP ALERT
+========================= */
+
+.map-alert {
+
+    position: absolute;
+
+    top: 115px;
+
+    right: 55px;
+
+    width: 25px;
+
+    height: 25px;
+
+    border-radius: 50%;
+
+    background: #ff303b;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: bold;
+
+    z-index: 6;
+
+    box-shadow:
+        0 0 15px
+        rgba(255,48,59,.8);
+
+    animation:
+        alertPulse 1.3s
+        infinite;
+
+}
+
+
+@keyframes alertPulse {
+
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.25);
+        opacity: .55;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+}
+
+
+/* =========================
+   NORTH INDICATOR
+========================= */
+
+.north {
+
+    position: absolute;
+
+    top: 12px;
+
+    right: 15px;
+
+    text-align: center;
+
+    color: #ccecff;
+
+    font-size: 13px;
+
+    z-index: 5;
+
+}
+
+
+.north div {
+
+    font-size: 25px;
+
+    color: #7ad9ff;
+
+}
+
+
+/* =========================
+   MAP LEGEND
+========================= */
+
+.legend {
+
+    position: absolute;
+
+    right: 12px;
+
+    bottom: 12px;
+
+    background:
+        rgba(2,20,34,.9);
+
+    padding: 10px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    line-height: 23px;
+
+    z-index: 5;
+
+    border:
+        1px solid
+        rgba(30,100,140,.4);
+
+}
+
+
+.legend span {
+    margin-right: 5px;
+}
+
+.blue {
+    color: #00bfff;
+}
+
+.green {
+    color: #00ee9a;
+}
+
+.red {
+    color: #ff343e;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+
+    border-top:
+        1px solid #153c59;
+
+    padding:
+        17px 29px;
+
+    color: #789ab3;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+}
+
+
+</style>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+/* =================================
+   LIVE CLOCK
+================================= */
+
+function updateClock() {
+
+    const now = new Date();
+
+
+    document.getElementById("date").innerText =
+        now.toLocaleDateString(
+            "en-IN",
+            {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+
+    document.getElementById("time").innerText =
+        now.toLocaleTimeString(
+            "en-IN",
+            {
+                hour12: false
+            }
+        );
+
+
+    const year =
+        now.getFullYear();
+
+    const month =
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            now.getDate()
+        ).padStart(2, "0");
+
+    const hours =
+        String(
+            now.getHours()
+        ).padStart(2, "0");
+
+    const minutes =
+        String(
+            now.getMinutes()
+        ).padStart(2, "0");
+
+    const seconds =
+        String(
+            now.getSeconds()
+        ).padStart(2, "0");
+
+
+    document.getElementById("feedDate").innerText =
+        `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+}
+
+
+setInterval(updateClock, 1000);
+
+updateClock();
+
+
+
+/* =================================
+   STATUS DISPLAY
+================================= */
+
+function showAction(message) {
+
+    const status =
+        document.getElementById(
+            "actionStatus"
+        );
+
+    status.innerText =
+        message;
+
+    status.classList.add(
+        "show"
+    );
+
+}
+
+
+
+/* =================================
+   START PATROL
+================================= */
+
+function startPatrol() {
+
+    showAction(
+        "● Patrol Active — Robot is scanning Platform 3"
+    );
+
+
+    document.getElementById(
+        "scanStatus"
+    ).innerText =
+        "Scanning for threats...";
+
+
+    document.getElementById(
+        "robotMarker"
+    ).style.animationDuration =
+        "1.8s";
+
+}
+
+
+
+/* =================================
+   PAUSE PATROL
+================================= */
+
+function pausePatrol() {
+
+    showAction(
+        "Ⅱ Patrol Paused — Robot is standing by"
+    );
+
+
+    document.getElementById(
+        "scanStatus"
+    ).innerText =
+        "Patrol paused";
+
+
+    document.getElementById(
+        "robotMarker"
+    ).style.animationPlayState =
+        "paused";
+
+}
+
+
+
+/* =================================
+   RETURN TO BASE
+================================= */
+
+function returnBase() {
+
+    showAction(
+        "⌂ Return-to-Base — Navigation command active"
+    );
+
+
+    document.getElementById(
+        "scanStatus"
+    ).innerText =
+        "Returning to base";
+
+
+    document.getElementById(
+        "robotMarker"
+    ).style.animationPlayState =
+        "running";
+
+}
+
+
+
+/* =================================
+   EMERGENCY STOP
+================================= */
+
+function emergencyStop() {
+
+    showAction(
+        "■ EMERGENCY STOP — Robot motion halted"
+    );
+
+
+    document.getElementById(
+        "scanStatus"
+    ).innerText =
+        "EMERGENCY STOP ACTIVE";
+
+
+    document.getElementById(
+        "scanStatus"
+    ).style.color =
+        "#ff5b63";
+
+
+    document.getElementById(
+        "robotMarker"
+    ).style.animationPlayState =
+        "paused";
+
+}
+
+
+
+/* =================================
+   VIEW DETECTIONS
+================================= */
+
+function viewDetections() {
+
+    const message =
+        document.getElementById(
+            "detectionMessage"
+        );
+
+
+    message.innerHTML =
+        "2 active detections found — " +
+        "Suspicious Bag <b>92%</b> · " +
+        "Person Loitering <b>87%</b>";
+
+
+    message.classList.add(
+        "show"
+    );
+
+}
+
+
+
+/* =================================
+   FULLSCREEN
+================================= */
+
+function fullscreenFeed() {
+
+    const feed =
+        document.querySelector(
+            ".live-feed"
+        );
+
+
+    if (feed.requestFullscreen) {
+
+        feed.requestFullscreen();
+
+    }
+
+}
+
+
+
+/* =================================
+   HOME
+================================= */
+
+function goHome() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+
+/* =================================
+   NAVIGATION
+================================= */
+
+function showPanel(panelName) {
+
+    const message =
+        document.getElementById(
+            "actionStatus"
+        );
+
+
+    message.innerText =
+        panelName +
+        " module selected";
+
+
+    message.classList.add(
+        "show"
+    );
+
+}
+
+</script>
+<script>
+
+/* =========================
+   GLOBAL STATE
+========================= */
+
+let patrolRunning = false;
+let patrolPaused = false;
+
+
+/* =========================
+   CLOCK
+========================= */
+
+function updateClock() {
+
+    const now = new Date();
+
+    const dateElement = document.getElementById("date");
+    const timeElement = document.getElementById("time");
+    const feedDate = document.getElementById("feedDate");
+
+    if (dateElement) {
+        dateElement.textContent =
+            now.toLocaleDateString("en-IN", {
+                weekday: "short",
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            });
+    }
+
+    if (timeElement) {
+        timeElement.textContent =
+            now.toLocaleTimeString("en-IN", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                hour12: false
+            });
+    }
+
+    if (feedDate) {
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+
+        feedDate.textContent =
+            `${year}-${month}-${day} ${now.toLocaleTimeString("en-IN", {
+                hour12: false
+            })}`;
+    }
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showPanel(panelName) {
+
+    // Remove active from all navigation buttons
+    document.querySelectorAll(".nav-item").forEach(item => {
+        item.classList.remove("active");
+    });
+
+    // Find clicked navigation item
+    const items = document.querySelectorAll(".nav-item");
+
+    items.forEach(item => {
+
+        if (item.textContent.includes(panelName)) {
+            item.classList.add("active");
+        }
+
+    });
+
+
+    // Show temporary status message
+    showActionStatus(panelName + " opened");
+
+    console.log("Opened:", panelName);
+}
+
+
+/* =========================
+   BACK TO HOME
+========================= */
+
+function goHome() {
+
+    // If you have index.html/home.html
+    window.location.href = "index.html";
+
+}
+
+
+/* =========================
+   START PATROL
+========================= */
+
+function startPatrol() {
+
+    patrolRunning = true;
+    patrolPaused = false;
+
+    const scan = document.getElementById("scanStatus");
+
+    if (scan) {
+        scan.textContent = "Patrol active — scanning for threats...";
+    }
+
+    showActionStatus("Patrol started successfully");
+
+}
+
+
+/* =========================
+   PAUSE PATROL
+========================= */
+
+function pausePatrol() {
+
+    if (!patrolRunning) {
+
+        showActionStatus("Patrol is not running");
+
+        return;
+    }
+
+    patrolPaused = !patrolPaused;
+
+    const scan = document.getElementById("scanStatus");
+
+    if (patrolPaused) {
+
+        if (scan) {
+            scan.textContent = "Patrol paused";
+        }
+
+        showActionStatus("Patrol paused");
+
+    } else {
+
+        if (scan) {
+            scan.textContent = "Patrol resumed — scanning for threats...";
+        }
+
+        showActionStatus("Patrol resumed");
+
+    }
+
+}
+
+
+/* =========================
+   RETURN TO BASE
+========================= */
+
+function returnBase() {
+
+    patrolRunning = false;
+    patrolPaused = false;
+
+    const scan = document.getElementById("scanStatus");
+
+    if (scan) {
+        scan.textContent = "Returning to base...";
+    }
+
+    showActionStatus("Robot returning to base");
+
+}
+
+
+/* =========================
+   EMERGENCY STOP
+========================= */
+
+function emergencyStop() {
+
+    patrolRunning = false;
+    patrolPaused = false;
+
+    const scan = document.getElementById("scanStatus");
+
+    if (scan) {
+        scan.textContent = "EMERGENCY STOP — Robot halted";
+    }
+
+    showActionStatus("EMERGENCY STOP ACTIVATED");
+
+}
+
+
+/* =========================
+   ACTION STATUS
+========================= */
+
+function showActionStatus(message) {
+
+    const status =
+        document.getElementById("actionStatus");
+
+    if (!status) return;
+
+    status.textContent = message;
+
+    status.classList.add("show");
+
+    clearTimeout(window.statusTimer);
+
+    window.statusTimer = setTimeout(() => {
+
+        status.classList.remove("show");
+
+    }, 2500);
+
+}
+
+
+/* =========================
+   FULLSCREEN LIVE FEED
+========================= */
+
+function fullscreenFeed() {
+
+    const feed =
+        document.querySelector(".feed-image");
+
+    if (!feed) return;
+
+    if (!document.fullscreenElement) {
+
+        if (feed.requestFullscreen) {
+
+            feed.requestFullscreen();
+
+        } else if (feed.webkitRequestFullscreen) {
+
+            feed.webkitRequestFullscreen();
+
+        }
+
+    } else {
+
+        document.exitFullscreen();
+
+    }
+
+}
+
+
+/* =========================
+   LIVE TELEMETRY SIMULATION
+========================= */
+
+function updateTelemetry() {
+
+    if (!patrolRunning || patrolPaused) {
+        return;
+    }
+
+    const speedElement =
+        document.getElementById("speed");
+
+    const temperatureElement =
+        document.getElementById("temperature");
+
+    const batteryElement =
+        document.getElementById("batteryValue");
+
+    const batteryBar =
+        document.getElementById("batteryBar");
+
+    // Random realistic robot speed
+    if (speedElement) {
+
+        const speed =
+            (0.8 + Math.random() * 0.8).toFixed(1);
+
+        speedElement.textContent =
+            speed + " m/s";
+
+    }
+
+    // Small temperature variation
+    if (temperatureElement) {
+
+        const temperature =
+            Math.floor(40 + Math.random() * 5);
+
+        temperatureElement.textContent =
+            temperature + "°C";
+
+    }
+
+    // Slowly decrease battery
+    if (batteryElement && batteryBar) {
+
+        let battery =
+            parseInt(
+                batteryElement.textContent
+            ) || 78;
+
+        if (battery > 10) {
+            battery -= 1;
+        }
+
+        batteryElement.textContent =
+            battery + "%";
+
+        batteryBar.style.width =
+            battery + "%";
+
+    }
+
+}
+
+setInterval(updateTelemetry, 5000);
+
+
+/* =========================
+   NAVIGATION CLICK SUPPORT
+========================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const navItems =
+        document.querySelectorAll(".nav-item");
+
+    navItems.forEach((item, index) => {
+
+        item.addEventListener("click", function () {
+
+            navItems.forEach(nav => {
+                nav.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+        });
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>
+
+
